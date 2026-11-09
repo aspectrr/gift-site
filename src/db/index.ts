@@ -5,7 +5,7 @@ import { drizzle } from "drizzle-orm/bun-sqlite";
 import { migrate } from "drizzle-orm/bun-sqlite/migrator";
 import * as schema from "./schema";
 
-export const dbPath = process.env.DB_PATH ?? "./data/gifts.db";
+export const dbPath = Bun.env.DB_PATH ?? "./data/gifts.db";
 
 mkdirSync(path.dirname(dbPath), { recursive: true });
 export const sqlite = new Database(dbPath, { create: true });

@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.8",
+    "@types/bun": "^1.4.4",
     "drizzle-kit": "^0.31.1",
     "tailwindcss": "^4.1.8",
     "typescript": "^5.8.3"

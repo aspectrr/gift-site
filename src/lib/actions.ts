@@ -1,6 +1,6 @@
 import { action, redirect } from "@solidjs/router";
 
-export type ActionResult = { ok: true } | { error: string; match?: { id: number; name: string } };
+export type ActionResult = { ok: true; error?: undefined; match?: undefined } | { ok?: false; error: string; match?: { id: number; name: string } };
 
 export const switchAction = action(async (): Promise<ActionResult> => {
   "use server";

@@ -1,8 +1,8 @@
 /** Resend over plain fetch — no SDK needed for one endpoint. */
 
 export async function sendEmail(opts: { to: string; subject: string; html: string }): Promise<void> {
-  const key = process.env.RESEND_API_KEY;
-  const from = process.env.RESEND_FROM ?? "Howard's Favorites <onboarding@resend.dev>";
+  const key = Bun.env.RESEND_API_KEY;
+  const from = Bun.env.RESEND_FROM ?? "Howard's Favorites <onboarding@resend.dev>";
 
   if (!key) {
     console.log(`[email:dry-run] to=${opts.to} subject="${opts.subject}"`);
@@ -20,5 +20,5 @@ export async function sendEmail(opts: { to: string; subject: string; html: strin
 }
 
 export function appUrl(): string {
-  return (process.env.APP_URL ?? "http://localhost:3000").replace(/\/$/, "");
+  return (Bun.env.APP_URL ?? "http://localhost:3000").replace(/\/$/, "");
 }
