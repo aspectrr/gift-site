@@ -13,6 +13,7 @@ const FAMILY = [
     isKid: false,
     favorites: {
       snacks: "Dark chocolate almonds, David's jumbo sunflower seeds",
+      drinks: "Sweet tea, half-and-half",
       coffee_order: "Dunkin medium iced, cream only",
       restaurants: "Olive Garden, the diner on Route 9",
       sizes: "Tops L, shoes 8",
@@ -86,6 +87,7 @@ const FAMILY = [
       gift_cards: "Amazon, Target",
       sizes: "Tops S, shoes 7.5",
       hobbies: "Reading, running",
+      books: "Anything Louise Penny, Winternight trilogy",
       allergies: "No tree nuts",
       avoid: "No scented candles",
     },
@@ -118,6 +120,7 @@ const FAMILY = [
       snacks: "Peanut brittle, black licorice",
       restaurants: "Cracker Barrel",
       hobbies: "Westerns, crosswords",
+      needs: "New reading lamp, heavy-duty zipper bags",
     },
     interests: { [currentYear()]: "" },
     ideas: [],

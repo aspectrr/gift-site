@@ -5,7 +5,7 @@ import { personQuery } from "~/lib/queries";
 import { Avatar } from "~/components/Avatar";
 import { IdeaForm, IdeaRow } from "~/components/Idea";
 import { PersonForm } from "~/components/PersonForm";
-import { CATEGORY_LABELS } from "~/lib/categories";
+import { CATEGORIES } from "~/lib/categories";
 
 export default function PersonPage() {
   const params = useParams();
@@ -112,28 +112,42 @@ export default function PersonPage() {
                 </section>
 
                 <section class="mt-7">
-                  <h2 class="mb-2 font-display text-2xl">
-                    Favorites
-                  </h2>
+                  <div class="mb-2 flex items-center justify-between gap-3">
+                    <h2 class="font-display text-2xl">Favorites</h2>
+                    <span class="text-xs text-slate">every row of the chart — blanks are waiting</span>
+                  </div>
                   <Show
-                    when={Object.keys(d().favorites).length > 0}
+                    when={Object.keys(d().favorites).length > 0 || d().isSelf}
                     fallback={
                       <p class="text-sm text-slate">
                         No favorites on the chart yet.{" "}
                         <A href={editHref(true)} class="font-bold text-plum underline decoration-dotted underline-offset-2">
-                          Fill them in
+                          Be the first to fill them in
                         </A>
                       </p>
                     }
                   >
                     <dl class="card divide-y divide-fog px-5">
-                      <For each={Object.entries(d().favorites)}>
-                        {([key, value]) => (
-                          <div class="grid gap-1 py-3.5 sm:grid-cols-[180px_1fr] sm:gap-4">
+                      <For each={CATEGORIES}>
+                        {(cat) => (
+                          <div class="grid gap-1 py-3.5 sm:grid-cols-[200px_1fr] sm:gap-4">
                             <dt class="text-xs font-extrabold uppercase tracking-wide text-slate">
-                              {CATEGORY_LABELS[key] ?? key}
+                              {cat.label}
                             </dt>
-                            <dd class="text-[15px] leading-relaxed">{value}</dd>
+                            <dd
+                              classList={{
+                                "text-[15px] leading-relaxed text-charcoal": Boolean(d().favorites[cat.key]),
+                                "text-[15px] italic text-slate/50": !d().favorites[cat.key],
+                              }}
+                            >
+                              {d().favorites[cat.key] || (d().isSelf ? (
+                                <A href={editHref(true)} class="text-plum underline decoration-dotted underline-offset-2">
+                                  add {cat.label.toLowerCase()}
+                                </A>
+                              ) : (
+                                "not on the chart yet"
+                              ))}
+                            </dd>
                           </div>
                         )}
                       </For>
