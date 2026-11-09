@@ -84,6 +84,8 @@ export type IdeaDTO = {
 export type PersonData = {
   person: { id: number; name: string; email: string | null; phone: string | null; birthday: string | null; isKid: boolean; color: string };
   isSelf: boolean;
+  /** false for anonymous visitors — they get a read-only view */
+  canEdit: boolean;
   favorites: Record<string, string>;
   interest: string;
   ideas: IdeaDTO[];
@@ -142,13 +144,15 @@ export const personQuery = query(
       person: {
         id: person.id,
         name: person.name,
-        email: person.email,
-        phone: person.phone,
+        // contact info is the person's own business — self only
+        email: isSelf ? person.email : null,
+        phone: isSelf ? person.phone : null,
         birthday: person.birthday,
         isKid: person.isKid,
         color: person.color,
       },
       isSelf,
+      canEdit: Boolean(who),
       favorites: Object.fromEntries(favRows.map((f) => [f.category, f.value])),
       interest: interestRow?.value ?? "",
       // bought flags never cross the wire to the person they belong to

@@ -61,6 +61,10 @@ export const addPersonAction = action(async (fd: FormData): Promise<ActionResult
   const { db } = await import("~/db");
   const { people } = await import("~/db/schema");
   const { pickColor } = await import("~/lib/categories");
+  const { getWho } = await import("~/lib/who");
+
+  const who = await getWho();
+  if (!who) return { error: "who" };
 
   const name = String(fd.get("name") ?? "").trim().slice(0, 40);
   if (!name) return { error: "empty" };
@@ -79,6 +83,10 @@ export const savePersonAction = action(async (fd: FormData): Promise<ActionResul
   const { people, favorites, interests } = await import("~/db/schema");
   const { CATEGORIES, currentYear } = await import("~/lib/categories");
   const { resolveBirthday } = await import("~/lib/occasions");
+  const { getWho } = await import("~/lib/who");
+
+  const who = await getWho();
+  if (!who) return { error: "Pick your name first, then edit." };
 
   const id = Number(fd.get("id"));
   const name = String(fd.get("name") ?? "").trim().slice(0, 40);
@@ -106,8 +114,8 @@ export const savePersonAction = action(async (fd: FormData): Promise<ActionResul
     .update(people)
     .set({
       name,
-      email: emailRaw || null,
-      phone,
+      // contact info is editable only by the person it belongs to
+      ...(who.id === id ? { email: emailRaw || null, phone } : {}),
       birthday: birthdayRaw || null,
       isKid: fd.get("isKid") === "on",
     })
@@ -212,6 +220,9 @@ export const deleteIdeaAction = action(async (fd: FormData): Promise<ActionResul
   const { eq } = await import("drizzle-orm");
   const { db } = await import("~/db");
   const { giftIdeas } = await import("~/db/schema");
+  const { getWho } = await import("~/lib/who");
+  const who = await getWho();
+  if (!who) return { error: "who" };
   await db.delete(giftIdeas).where(eq(giftIdeas.id, Number(fd.get("ideaId"))));
   return { ok: true };
 }, "deleteIdea");
@@ -223,9 +234,11 @@ export const deletePersonAction = action(async (fd: FormData): Promise<ActionRes
   const { people } = await import("~/db/schema");
   const { getWho, clearWho } = await import("~/lib/who");
 
-  const id = Number(fd.get("id"));
   const who = await getWho();
+  if (!who) return { error: "who" };
+
+  const id = Number(fd.get("id"));
   await db.delete(people).where(eq(people.id, id));
-  if (who?.id === id) clearWho();
+  if (who.id === id) clearWho();
   return redirect("/");
 }, "deletePerson");

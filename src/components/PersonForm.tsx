@@ -32,6 +32,7 @@ export function PersonForm(props: { data: PersonData; doneHref: string }) {
             pattern="\d{2}-\d{2}"
           />
         </div>
+<Show when={props.data.isSelf}>
         <div>
           <label class="label" for="f-email">Email (for reminders)</label>
           <input
@@ -58,6 +59,7 @@ export function PersonForm(props: { data: PersonData; doneHref: string }) {
             placeholder="(555) 123-4567 — for future texts"
           />
         </div>
+</Show>
         <div>
           <span class="label">Section</span>
           <label class="flex min-h-11 items-center gap-2 text-sm font-bold">

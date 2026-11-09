@@ -63,9 +63,11 @@ export default function PersonPage() {
                     </Show>
                   </div>
                 </div>
-                <A href={editHref(!sp.edit)} class="btn btn-ghost">
-                  {sp.edit ? "Close editor" : "Edit"}
-                </A>
+                <Show when={d().canEdit}>
+                  <A href={editHref(!sp.edit)} class="btn btn-ghost">
+                    {sp.edit ? "Close editor" : "Edit"}
+                  </A>
+                </Show>
               </div>
 
               <Show when={d().years.length > 1}>
@@ -87,7 +89,7 @@ export default function PersonPage() {
                 </nav>
               </Show>
 
-              <Show when={sp.edit}>
+              <Show when={sp.edit && d().canEdit}>
                 <PersonForm data={d()} doneHref={editHref(false)} />
               </Show>
 
@@ -117,13 +119,15 @@ export default function PersonPage() {
                     <span class="text-xs text-slate">every row of the chart — blanks are waiting</span>
                   </div>
                   <Show
-                    when={Object.keys(d().favorites).length > 0 || d().isSelf}
+                    when={Object.keys(d().favorites).length > 0 || d().canEdit}
                     fallback={
                       <p class="text-sm text-slate">
                         No favorites on the chart yet.{" "}
-                        <A href={editHref(true)} class="font-bold text-plum underline decoration-dotted underline-offset-2">
-                          Be the first to fill them in
-                        </A>
+                        <Show when={d().canEdit} fallback={<span>nothing filled in yet</span>}>
+                          <A href={editHref(true)} class="font-bold text-plum underline decoration-dotted underline-offset-2">
+                            Be the first to fill them in
+                          </A>
+                        </Show>
                       </p>
                     }
                   >
@@ -140,7 +144,7 @@ export default function PersonPage() {
                                 "text-[15px] italic text-slate/50": !d().favorites[cat.key],
                               }}
                             >
-                              {d().favorites[cat.key] || (d().isSelf ? (
+                              {d().favorites[cat.key] || (d().canEdit ? (
                                 <A href={editHref(true)} class="text-plum underline decoration-dotted underline-offset-2">
                                   add {cat.label.toLowerCase()}
                                 </A>
