@@ -1,8 +1,8 @@
-# Family Favorites
+# Howard's Favorites
 
 The family gift chart, as an app. Everyone's favorites, clothing sizes, current
 interests, and gift ideas (with links) in one place — browsable by person and by
-year, mobile-first, no accounts. Inspired by the "Family Favorites Chart"
+year, mobile-first, no accounts. Inspired by the "Howard's Favorites Chart"
 Google Sheet the family used to pass around; now with birthday reminders and
 private "bought" marks.
 
@@ -53,7 +53,7 @@ fly secrets set \
   APP_SECRET=$(openssl rand -hex 32) \
   APP_URL=https://<app>.fly.dev \
   RESEND_API_KEY=re_... \
-  RESEND_FROM="Family Favorites <favorites@yourdomain.com>" \
+  RESEND_FROM="Howard's Favorites <favorites@yourdomain.com>" \
   APP_TZ=America/New_York     # optional, default America/New_York
 fly deploy
 ```
@@ -69,7 +69,7 @@ Add to iPhone home screen via Safari → Share → Add to Home Screen.
 | `APP_URL` | `http://localhost:3000` | used in reminder email links |
 | `APP_TZ` | `America/New_York` | timezone for birthday/reminder math |
 | `RESEND_API_KEY` | unset → dry-run | emails log instead of send |
-| `RESEND_FROM` | `Family Favorites <onboarding@resend.dev>` | sender identity |
+| `RESEND_FROM` | `Howard's Favorites <onboarding@resend.dev>` | sender identity |
 
 ## Not in the MVP (yet)
 

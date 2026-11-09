@@ -64,7 +64,7 @@ export default function App() {
     <Router
       root={(props) => (
         <MetaProvider>
-          <Title>Family Favorites</Title>
+          <Title>Howard's Favorites</Title>
           <div class="flex min-h-dvh flex-col">
             <Header />
             <main class="mx-auto w-full max-w-5xl flex-1 px-4 pb-20 pt-6">
