@@ -1,13 +1,13 @@
 import { createEffect, createSignal, For, Show, Switch, Match } from "solid-js";
-import { useSubmission } from "@solidjs/router";
+import { useAction, useSubmission } from "@solidjs/router";
 import { joinAction, pickAction, type ActionResult } from "~/lib/actions";
+import { formatBirthday, formatPhone } from "~/lib/format";
 import type { FamilyData } from "~/lib/queries";
 import { Avatar } from "./Avatar";
 import { Mascot } from "./Mascot";
 import { Confetti } from "./Confetti";
 
 type Step = "welcome" | "name" | "birthday" | "phone" | "tour";
-
 const TOUR = [
   {
     pose: "point" as const,
@@ -58,6 +58,10 @@ export function Onboarding(props: { family: FamilyData; onDone: () => void }) {
   const joinResult = () => join.result as ActionResult | undefined;
   const existsMatch = () => ("match" in (joinResult() ?? {}) ? joinResult()!.match : undefined);
 
+  // useSubmission gives reactive pending/result; useAction gives the callable submitter.
+  // Calling the submission proxy directly throws "not a function" before the first submit.
+  const joinFn = useAction(joinAction);
+
   // action outcomes
   createEffect(() => {
     const r = joinResult();
@@ -74,7 +78,7 @@ export function Onboarding(props: { family: FamilyData; onDone: () => void }) {
     fd.set("name", name());
     fd.set("birthday", birthday());
     fd.set("phone", phone());
-    void join(fd);
+    void joinFn(fd);
   };
 
   return (
@@ -192,7 +196,7 @@ export function Onboarding(props: { family: FamilyData; onDone: () => void }) {
                 inputmode="numeric"
                 pattern="\d{2}-\d{2}"
                 value={birthday()}
-                onInput={(e) => setBirthday(e.currentTarget.value)}
+                onInput={(e) => setBirthday(formatBirthday(e.currentTarget.value))}
               />
               <button type="submit" class="btn btn-primary px-5">Next</button>
               <button type="button" class="btn btn-ghost" onClick={() => setStep("phone")}>Skip</button>
@@ -231,7 +235,7 @@ export function Onboarding(props: { family: FamilyData; onDone: () => void }) {
                 inputmode="tel"
                 placeholder="(555) 123-4567"
                 value={phone()}
-                onInput={(e) => setPhone(e.currentTarget.value)}
+                onInput={(e) => setPhone(formatPhone(e.currentTarget.value))}
               />
               <button type="submit" class="btn btn-primary px-5" disabled={join.pending}>
                 {join.pending ? "One sec…" : "Let's go"}
