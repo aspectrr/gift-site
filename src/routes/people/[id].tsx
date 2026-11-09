@@ -116,7 +116,7 @@ export default function PersonPage() {
                 <section class="mt-7">
                   <div class="mb-2 flex items-center justify-between gap-3">
                     <h2 class="font-display text-2xl">Favorites</h2>
-                    <span class="text-xs text-slate">every row of the chart — blanks are waiting</span>
+                    <span class="text-xs text-slate">every row of the chart</span>
                   </div>
                   <Show
                     when={Object.keys(d().favorites).length > 0 || d().canEdit}

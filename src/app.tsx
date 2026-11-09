@@ -30,7 +30,7 @@ const Header = () => {
     <header class="sticky top-0 z-40 border-b border-fog bg-cream/90 backdrop-blur-md">
       <div class="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
         <A href="/" class="font-display text-xl tracking-tight text-ink">
-          Family <span class="swash">Favorites</span>
+          <span class="swash">Howard's</span> Favorites
         </A>
         {/* identity chip reads an async query — needs its own Suspense boundary,
             otherwise SSR defers it as a bare marker pair and hydration mismatches */}
