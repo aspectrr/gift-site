@@ -70,9 +70,6 @@ export default function App() {
             <main class="mx-auto w-full max-w-5xl flex-1 px-4 pb-20 pt-6">
               <Suspense>{props.children}</Suspense>
             </main>
-            <footer class="border-t border-fog py-6 text-center text-xs text-slate">
-              One chart, the whole family, every year. 🎁
-            </footer>
           </div>
         </MetaProvider>
       )}
