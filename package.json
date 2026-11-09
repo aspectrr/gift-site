@@ -1,0 +1,35 @@
+{
+  "name": "family-favorites",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "bun": ">=1.2"
+  },
+  "scripts": {
+    "dev": "bun --bun vinxi dev",
+    "build": "vinxi build",
+    "start": "vinxi start",
+    "db:generate": "drizzle-kit generate",
+    "migrate": "bun run src/db/migrate.ts",
+    "seed": "bun run src/db/seed.ts",
+    "reminders:run": "bun run src/server/run-reminders.ts",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@solidjs/meta": "^0.29.7",
+    "@solidjs/router": "^0.15.3",
+    "@solidjs/start": "^1.1.0",
+    "drizzle-orm": "^0.44.2",
+    "solid-js": "^1.9.7",
+    "vinxi": "^0.5.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.8",
+    "drizzle-kit": "^0.31.1",
+    "tailwindcss": "^4.1.8",
+    "typescript": "^5.8.3"
+  },
+  "trustedDependencies": [
+    "@parcel/watcher"
+  ]
+}

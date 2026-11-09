@@ -1,0 +1,208 @@
+@import "tailwindcss";
+
+/*
+  Hatch: hand-drawn zine meets pastel candy store.
+  Cream paper canvas, white cards with 1px ink borders, mint CTAs,
+  pastel confetti, chunky serif headlines. No shadows — ever.
+  Light theme only, by design.
+*/
+
+@theme {
+  /* Hatch palette */
+  --color-cream: #f5f4f0;
+  --color-paper: #ffffff;
+  --color-ink: #000000;
+  --color-charcoal: #222222;
+  --color-slate: #333333;
+  --color-fog: #dddfe2;
+  --color-mint: #99ffcc;
+  --color-sky: #7bbbff;
+  --color-bubblegum: #ff99cc;
+  --color-peach: #ffcc99;
+  --color-plum: #160042;
+  --color-aubergine: #26153f;
+
+  /* avatar pastels (fills with ink initial) */
+  --color-lavender: #cdc2ff;
+  --color-butter: #ffe08a;
+  --color-coral: #ffb59e;
+  --color-teal: #8fe8d2;
+
+  --font-display: "DM Serif Display", ui-serif, Georgia, serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --animate-rise: rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-wiggle: wiggle 0.6s ease-in-out;
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes wiggle {
+    0%,
+    100% {
+      transform: rotate(-2deg);
+    }
+    50% {
+      transform: rotate(2deg);
+    }
+  }
+}
+
+html {
+  font-family: var(--font-body);
+  background: var(--color-cream);
+  color: var(--color-charcoal);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  min-height: 100dvh;
+}
+
+/* whisper of paper grain */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::selection {
+  background: var(--color-mint);
+  color: var(--color-ink);
+}
+
+@layer components {
+  .card {
+    background: var(--color-paper);
+    border: 1px solid var(--color-ink);
+    border-radius: 1rem; /* 16px */
+  }
+
+  .btn {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0 1.1rem;
+    border-radius: 0.75rem; /* 12px */
+    font-weight: 700;
+    font-size: 0.9375rem;
+    cursor: pointer;
+    transition: transform 0.15s ease, background 0.15s ease;
+    user-select: none;
+  }
+  .btn:active {
+    transform: scale(0.97);
+  }
+  @media (hover: hover) {
+    .btn:hover {
+      background: color-mix(in oklab, var(--color-mint) 70%, var(--color-sky));
+    }
+  }
+
+  .btn-primary {
+    background: var(--color-mint);
+    color: var(--color-ink);
+    border: 1px solid var(--color-ink);
+  }
+  @media (hover: hover) {
+    .btn-primary:hover {
+      background: color-mix(in oklab, var(--color-mint) 70%, var(--color-sky));
+    }
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--color-ink);
+    border: 1px solid var(--color-ink);
+  }
+  @media (hover: hover) {
+    .btn-ghost:hover {
+      background: var(--color-cream);
+    }
+  }
+
+  .input {
+    width: 100%;
+    min-height: 44px;
+    background: var(--color-paper);
+    color: var(--color-charcoal);
+    border: 1px solid var(--color-ink);
+    border-radius: 0.75rem;
+    padding: 0.6rem 0.9rem;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: outline-color 0.15s ease;
+  }
+  .input:focus {
+    outline: 3px solid var(--color-mint);
+    outline-offset: 0;
+    border-color: var(--color-ink);
+  }
+  .input::placeholder {
+    color: color-mix(in oklab, var(--color-slate) 55%, var(--color-paper));
+  }
+  textarea.input {
+    min-height: 76px;
+    resize: vertical;
+    line-height: 1.5;
+  }
+
+  .label {
+    display: block;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    color: var(--color-slate);
+    margin-bottom: 0.35rem;
+    text-transform: uppercase;
+  }
+
+  /* tag chips: pill, white, ink border */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: var(--color-paper);
+    color: var(--color-charcoal);
+    border: 1px solid var(--color-ink);
+    border-radius: 100px;
+    padding: 0.2rem 0.7rem;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  /* hand-drawn mint swash behind a keyword */
+  .swash {
+    position: relative;
+    display: inline-block;
+  }
+  .swash::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: -0.3em;
+    right: -0.3em;
+    top: 0.18em;
+    bottom: -0.05em;
+    background: var(--color-mint);
+    border-radius: 50%;
+    transform: rotate(-1.5deg);
+  }
+}
