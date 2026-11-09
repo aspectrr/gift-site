@@ -24,7 +24,7 @@ const SwitchButton = () => {
 };
 
 const Header = () => {
-  const who = createAsync(() => whoQuery(), { initialValue: null });
+  const who = createAsync(() => whoQuery());
   const location = useLocation();
   return (
     <header class="sticky top-0 z-40 border-b border-fog bg-cream/90 backdrop-blur-md">
