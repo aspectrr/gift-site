@@ -32,24 +32,28 @@ const Header = () => {
         <A href="/" class="font-display text-xl tracking-tight text-ink">
           Family <span class="swash">Favorites</span>
         </A>
-        <Show
-          when={who()}
-          fallback={
-            <Show when={location.pathname !== "/"}>
-              <A href="/" class="rounded-full border border-ink bg-mint px-3 py-1 text-xs font-bold text-ink">
-                Who are you?
+        {/* identity chip reads an async query — needs its own Suspense boundary,
+            otherwise SSR defers it as a bare marker pair and hydration mismatches */}
+        <Suspense fallback={null}>
+          <Show
+            when={who()}
+            fallback={
+              <Show when={location.pathname !== "/"}>
+                <A href="/" class="rounded-full border border-ink bg-mint px-3 py-1 text-xs font-bold text-ink">
+                  Who are you?
+                </A>
+              </Show>
+            }
+          >
+            <div class="flex items-center gap-3">
+              <A href="/me" class="flex items-center gap-2 rounded-full border border-ink bg-paper py-1 pl-1 pr-3 transition hover:bg-mint">
+                <Avatar name={who()!.name} color={who()!.color} size="sm" />
+                <span class="text-sm font-bold text-ink">{who()!.name}</span>
               </A>
-            </Show>
-          }
-        >
-          <div class="flex items-center gap-3">
-            <A href="/me" class="flex items-center gap-2 rounded-full border border-ink bg-paper py-1 pl-1 pr-3 transition hover:bg-mint">
-              <Avatar name={who()!.name} color={who()!.color} size="sm" />
-              <span class="text-sm font-bold text-ink">{who()!.name}</span>
-            </A>
-            <SwitchButton />
-          </div>
-        </Show>
+              <SwitchButton />
+            </div>
+          </Show>
+        </Suspense>
       </div>
     </header>
   );

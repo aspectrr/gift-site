@@ -4,7 +4,9 @@ export const whoQuery = query(
   async () => {
     "use server";
     const { getWho } = await import("~/lib/who");
-    return getWho();
+    const who = await getWho();
+    // trimmed on purpose: this row gets serialized into every page payload
+    return who ? { id: who.id, name: who.name, color: who.color } : null;
   },
   "who",
 );
