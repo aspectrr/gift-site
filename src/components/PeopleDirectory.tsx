@@ -6,6 +6,7 @@ import { matches } from "~/lib/search";
 import { CATEGORY_LABELS } from "~/lib/categories";
 import type { FamilyData, MemberDTO } from "~/lib/queries";
 import { Avatar } from "./Avatar";
+import { Mascot } from "./Mascot";
 
 function haystack(m: MemberDTO): string {
   return [m.name, m.interestsNow, ...Object.values(m.favorites), ...m.ideas.map((i) => i.title)].join(" ");
@@ -21,14 +22,14 @@ function PersonCard(props: { member: MemberDTO; days?: number; index: number }) 
   return (
     <A
       href={`/people/${props.member.id}`}
-      class="card group block p-4 transition active:scale-[0.99] hover:border-accent"
+      class="card block p-4 transition active:scale-[0.99] hover:bg-cream"
       style={{ "animation-delay": `${Math.min(props.index, 12) * 35}ms` }}
     >
       <div class="flex items-start gap-3">
         <Avatar name={props.member.name} color={props.member.color} />
         <div class="min-w-0 flex-1">
-          <h3 class="truncate font-display text-lg font-semibold leading-tight">{props.member.name}</h3>
-          <p class="mt-1 line-clamp-2 min-h-[2.5rem] text-sm text-muted">
+          <h3 class="truncate font-display text-xl leading-tight text-ink">{props.member.name}</h3>
+          <p class="mt-1 line-clamp-2 min-h-[2.5rem] text-sm text-slate">
             {props.member.interestsNow ||
               (Object.keys(props.member.favorites).length > 0
                 ? favoritePreview(props.member)
@@ -39,7 +40,7 @@ function PersonCard(props: { member: MemberDTO; days?: number; index: number }) 
               <span class="chip">{props.member.ideas.length} idea{props.member.ideas.length === 1 ? "" : "s"}</span>
             </Show>
             <Show when={props.days !== undefined}>
-              <span class="chip">🎂 {whenLabel(props.days!)}</span>
+              <span class="chip border-ink bg-peach">🎂 {whenLabel(props.days!)}</span>
             </Show>
             <Show when={props.member.ideas.length === 0 && props.days === undefined}>
               <span class="chip opacity-60">tap to fill in</span>
@@ -56,11 +57,14 @@ function favoritePreview(m: MemberDTO): string {
   return first ? `${CATEGORY_LABELS[first[0]] ?? first[0]}: ${first[1]}` : "";
 }
 
+const SECTION_DOTS = ["bg-sky", "bg-bubblegum", "bg-peach", "bg-mint"];
+
 function Section(props: { title: string; members: MemberDTO[]; birthdays: Map<number, number>; offset: number }) {
   return (
     <section class="mt-8">
-      <h2 class="mb-3 font-display text-sm font-semibold uppercase tracking-widest text-muted">
-        {props.title} <span class="font-body tracking-normal">({props.members.length})</span>
+      <h2 class="mb-3 flex items-center gap-2 font-display text-2xl text-ink">
+        <span class={`inline-block h-3 w-3 rounded-full border border-ink ${SECTION_DOTS[props.offset % 4]}`} aria-hidden="true" />
+        {props.title} <span class="font-body text-sm font-bold text-slate">({props.members.length})</span>
       </h2>
       <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         <For each={props.members}>
@@ -86,15 +90,15 @@ const AddSomeone = () => {
           <label class="label" for="add-name">Name</label>
           <input class="input" id="add-name" name="name" placeholder="Grandpa Joe…" maxlength="40" required />
         </div>
-        <label class="flex min-h-11 items-center gap-2 text-sm font-bold">
-          <input type="checkbox" name="isKid" class="size-5 accent-[var(--accent)]" />
+        <label class="flex min-h-11 items-center gap-2 text-sm font-bold text-ink">
+          <input type="checkbox" name="isKid" class="size-5 accent-black" />
           Kid
         </label>
         <button type="submit" class="btn btn-primary" disabled={sub.pending}>
           {sub.pending ? "Adding…" : "Add"}
         </button>
         <Show when={result()?.error === "exists"}>
-          <p class="w-full text-sm font-bold text-accent" role="alert">
+          <p class="w-full text-sm font-bold text-plum" role="alert">
             That name is already on the chart.
           </p>
         </Show>
@@ -121,7 +125,11 @@ export function PeopleDirectory(props: { family: FamilyData }) {
           <div class="flex gap-2">
             <For each={props.family.upcoming}>
               {(u) => (
-                <A href={`/people/${u.id}`} class="chip border border-line py-1.5 hover:border-accent">
+                <A
+                  href={`/people/${u.id}`}
+                  class="chip py-1.5 transition hover:bg-mint"
+                  classList={{ "bg-mint": u.days === 0 }}
+                >
                   <Avatar name={u.name} color={u.color} size="sm" />
                   <span>
                     {u.name} · {u.label} · {whenLabel(u.days)}
@@ -133,22 +141,22 @@ export function PeopleDirectory(props: { family: FamilyData }) {
         </nav>
       </Show>
 
-      <div class="sticky top-14 z-30 -mx-4 bg-bg/90 px-4 py-3 backdrop-blur-md">
+      <div class="sticky top-14 z-30 -mx-4 bg-cream/90 px-4 py-3 backdrop-blur-md">
         <label class="relative block max-w-md">
           <span class="sr-only">Search the chart</span>
           <svg
-            class="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-muted"
+            class="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-charcoal"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2"
+            stroke-width="2.5"
             stroke-linecap="round"
           >
             <circle cx="11" cy="11" r="7" />
             <path d="m20 20-3.5-3.5" />
           </svg>
           <input
-            class="input rounded-full pl-11"
+            class="input rounded-xl pl-11"
             type="search"
             placeholder={`Search ${props.family.members.length} people — "coffee", "Zelda"…`}
             value={q()}
@@ -161,8 +169,9 @@ export function PeopleDirectory(props: { family: FamilyData }) {
         when={total() > 0}
         fallback={
           <div class="card mt-8 p-8 text-center">
-            <p class="font-display text-xl font-semibold">No one matches “{q()}”</p>
-            <p class="mt-2 text-sm text-muted">
+            <div class="flex justify-center"><Mascot pose="think" size={110} /></div>
+            <p class="mt-2 font-display text-2xl text-ink">No one matches “{q()}”</p>
+            <p class="mx-auto mt-2 max-w-sm text-left text-sm text-slate">
               Search checks names, favorites, interests, and gift ideas — try fewer words.
             </p>
           </div>
@@ -177,7 +186,7 @@ export function PeopleDirectory(props: { family: FamilyData }) {
       </Show>
 
       <Show when={q()}>
-        <p class="mt-4 text-center text-xs text-muted">
+        <p class="mt-4 text-center text-xs text-slate">
           {total()} of {props.family.members.length} shown
         </p>
       </Show>

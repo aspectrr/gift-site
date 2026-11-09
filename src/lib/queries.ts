@@ -82,7 +82,7 @@ export type IdeaDTO = {
 };
 
 export type PersonData = {
-  person: { id: number; name: string; email: string | null; birthday: string | null; isKid: boolean; color: string };
+  person: { id: number; name: string; email: string | null; phone: string | null; birthday: string | null; isKid: boolean; color: string };
   isSelf: boolean;
   favorites: Record<string, string>;
   interest: string;
@@ -143,6 +143,7 @@ export const personQuery = query(
         id: person.id,
         name: person.name,
         email: person.email,
+        phone: person.phone,
         birthday: person.birthday,
         isKid: person.isKid,
         color: person.color,

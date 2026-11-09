@@ -33,14 +33,24 @@ export const joinAction = action(async (fd: FormData): Promise<ActionResult> => 
   const { people } = await import("~/db/schema");
   const { setWho } = await import("~/lib/who");
   const { pickColor } = await import("~/lib/categories");
+  const { resolveBirthday } = await import("~/lib/occasions");
 
   const name = String(fd.get("name") ?? "").trim().slice(0, 40);
   if (!name) return { error: "empty" };
 
+  const birthdayRaw = String(fd.get("birthday") ?? "").trim();
+  if (birthdayRaw && (!/^\d{2}-\d{2}$/.test(birthdayRaw) || !resolveBirthday(birthdayRaw, 2024))) {
+    return { error: "birthday" };
+  }
+  const phone = String(fd.get("phone") ?? "").trim().slice(0, 24) || null;
+
   const [match] = await db.select().from(people).where(eq(people.name, name)).limit(1);
   if (match) return { error: "exists", match: { id: match.id, name: match.name } };
 
-  const [created] = await db.insert(people).values({ name, color: pickColor(name) }).returning();
+  const [created] = await db
+    .insert(people)
+    .values({ name, phone, birthday: birthdayRaw || null, color: pickColor(name) })
+    .returning();
   setWho(created.id);
   return { ok: true };
 }, "join");
@@ -85,6 +95,7 @@ export const savePersonAction = action(async (fd: FormData): Promise<ActionResul
   if (emailRaw && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailRaw)) {
     return { error: "That email doesn't look right." };
   }
+  const phone = String(fd.get("phone") ?? "").trim().slice(0, 24) || null;
 
   const birthdayRaw = String(fd.get("birthday") ?? "").trim();
   if (birthdayRaw && (!/^\d{2}-\d{2}$/.test(birthdayRaw) || !resolveBirthday(birthdayRaw, 2024))) {
@@ -96,6 +107,7 @@ export const savePersonAction = action(async (fd: FormData): Promise<ActionResul
     .set({
       name,
       email: emailRaw || null,
+      phone,
       birthday: birthdayRaw || null,
       isKid: fd.get("isKid") === "on",
     })

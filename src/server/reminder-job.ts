@@ -81,7 +81,7 @@ function filloutEmail(p: ReminderPerson, year: number, wave: 1 | 2) {
 function birthdayEmail(to: string, p: ReminderPerson, favorites: string[]) {
   const label = p.birthday ? birthdayLabel(p.birthday, new Date(), TZ) : "soon";
   const list = favorites.length
-    ? `<p style="color:#6b5d55;font-size:14px;line-height:1.7">${favorites
+    ? `<p style="color:#333;font-size:14px;line-height:1.7">${favorites
         .slice(0, 6)
         .map((f) => escapeHtml(f))
         .join("<br/>")}</p>`
@@ -92,18 +92,18 @@ function birthdayEmail(to: string, p: ReminderPerson, favorites: string[]) {
     html: wrap(`
       <p><strong>${escapeHtml(p.name)}</strong>'s birthday is coming up on <strong>${escapeHtml(label)}</strong>.</p>
       <p>A peek at their current favorites:</p>
-      ${list || `<p style="color:#6b5d55">(no favorites filled in yet)</p>`}
+      ${list || `<p style="color:#333">(no favorites filled in yet)</p>`}
       ${button(`${appUrl()}/people/${p.id}`, `See ${escapeHtml(p.name)}'s list`)}
     `),
   };
 }
 
 function button(href: string, label: string) {
-  return `<p style="margin:28px 0"><a href="${href}" style="background:#a63d4b;color:#fffdf9;padding:12px 22px;border-radius:999px;text-decoration:none;font-weight:700;display:inline-block">${label}</a></p>`;
+  return `<p style="margin:28px 0"><a href="${href}" style="background:#99ffcc;color:#000;border:1px solid #000;padding:12px 22px;border-radius:12px;text-decoration:none;font-weight:700;display:inline-block">${label}</a></p>`;
 }
 
 function wrap(inner: string) {
-  return `<div style="font-family:'Nunito Sans',ui-sans-serif,system-ui,sans-serif;color:#33281f;max-width:480px;margin:0 auto;padding:24px;background:#fffdf9;border-radius:16px">${inner}</div>`;
+  return `<div style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#222;max-width:480px;margin:0 auto;padding:24px;background:#fff;border:1px solid #000;border-radius:16px">${inner}</div>`;
 }
 
 function escapeHtml(s: string) {

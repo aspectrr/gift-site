@@ -11,8 +11,7 @@ export default createHandler(() => (
         <head>
           <meta charset="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-          <meta name="theme-color" content="#f7f1e6" media="(prefers-color-scheme: light)" />
-          <meta name="theme-color" content="#191410" media="(prefers-color-scheme: dark)" />
+          <meta name="theme-color" content="#f5f4f0" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-status-bar-style" content="default" />
           <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -22,7 +21,7 @@ export default createHandler(() => (
           <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
           <link
             rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Nunito+Sans:ital,opsz,wght@0,6..12,400..800;1,6..12,400..700&display=swap"
+            href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;700;800&display=swap"
           />
           {assets}
         </head>

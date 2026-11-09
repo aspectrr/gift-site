@@ -34,7 +34,7 @@ export default function PersonPage() {
         <Match when={data() === null}>
           <div class="card mx-auto mt-16 max-w-md p-8 text-center">
             <p class="font-display text-2xl font-semibold">Nobody here</p>
-            <p class="mt-2 text-sm text-muted">
+            <p class="mt-2 text-sm text-slate">
               That person may have been removed from the chart.
             </p>
             <A href="/" class="btn btn-primary mt-5">← Back to everyone</A>
@@ -45,7 +45,7 @@ export default function PersonPage() {
             <div class="mx-auto max-w-2xl">
               <Title>{d().person.name} · Family Favorites</Title>
 
-              <A href="/" class="text-sm font-bold text-muted hover:text-accent">← Everyone</A>
+              <A href="/" class="text-sm font-bold text-slate underline decoration-dotted hover:text-plum">← Everyone</A>
 
               <div class="mt-4 flex flex-wrap items-center gap-4">
                 <Avatar name={d().person.name} color={d().person.color} size="lg" />
@@ -56,10 +56,10 @@ export default function PersonPage() {
                       <span class="chip">🎂 {d().birthdayLabel}</span>
                     </Show>
                     <Show when={d().person.isKid}>
-                      <span class="chip border border-line bg-transparent text-muted">kid</span>
+                      <span class="chip border-ink bg-sky">kid</span>
                     </Show>
                     <Show when={d().isSelf}>
-                      <span class="chip border border-line bg-transparent text-muted">you</span>
+                      <span class="chip border-ink bg-mint">you</span>
                     </Show>
                   </div>
                 </div>
@@ -74,10 +74,10 @@ export default function PersonPage() {
                     {(y) => (
                       <A
                         href={yearHref(y === d().years[0] ? null : y)}
-                        class="chip border border-line"
+                        class="chip"
                         classList={{
-                          "bg-accent text-[#fffdf9] border-accent": y === d().year,
-                          "bg-transparent text-muted hover:border-accent": y !== d().year,
+                          "bg-mint": y === d().year,
+                          "bg-paper hover:bg-mint": y !== d().year,
                         }}
                       >
                         {y}
@@ -93,44 +93,44 @@ export default function PersonPage() {
 
               <Show when={!sp.edit}>
                 <section class="mt-7">
-                  <h2 class="mb-2 font-display text-sm font-semibold uppercase tracking-widest text-muted">
+                  <h2 class="mb-2 font-display text-2xl">
                     Into right now
                   </h2>
                   <Show
                     when={d().interest}
                     fallback={
-                      <p class="text-sm text-muted/80">
+                      <p class="text-sm text-slate">
                         Nothing noted for {d().year}.{" "}
-                        <A href={editHref(true)} class="font-bold text-accent underline decoration-dotted underline-offset-2">
+                        <A href={editHref(true)} class="font-bold text-plum underline decoration-dotted underline-offset-2">
                           Add something
                         </A>
                       </p>
                     }
                   >
-                    <p class="card p-5 font-display text-xl italic leading-relaxed">{d().interest}</p>
+                    <p class="card p-5 font-display text-2xl italic leading-snug text-ink">{d().interest}</p>
                   </Show>
                 </section>
 
                 <section class="mt-7">
-                  <h2 class="mb-2 font-display text-sm font-semibold uppercase tracking-widest text-muted">
+                  <h2 class="mb-2 font-display text-2xl">
                     Favorites
                   </h2>
                   <Show
                     when={Object.keys(d().favorites).length > 0}
                     fallback={
-                      <p class="text-sm text-muted/80">
+                      <p class="text-sm text-slate">
                         No favorites on the chart yet.{" "}
-                        <A href={editHref(true)} class="font-bold text-accent underline decoration-dotted underline-offset-2">
+                        <A href={editHref(true)} class="font-bold text-plum underline decoration-dotted underline-offset-2">
                           Fill them in
                         </A>
                       </p>
                     }
                   >
-                    <dl class="card divide-y divide-line-soft px-5">
+                    <dl class="card divide-y divide-fog px-5">
                       <For each={Object.entries(d().favorites)}>
                         {([key, value]) => (
                           <div class="grid gap-1 py-3.5 sm:grid-cols-[180px_1fr] sm:gap-4">
-                            <dt class="text-xs font-extrabold uppercase tracking-wide text-muted">
+                            <dt class="text-xs font-extrabold uppercase tracking-wide text-slate">
                               {CATEGORY_LABELS[key] ?? key}
                             </dt>
                             <dd class="text-[15px] leading-relaxed">{value}</dd>
@@ -143,17 +143,17 @@ export default function PersonPage() {
 
                 <section class="mt-7">
                   <div class="mb-2 flex items-center justify-between gap-3">
-                    <h2 class="font-display text-sm font-semibold uppercase tracking-widest text-muted">
+                    <h2 class="font-display text-2xl">
                       Gift ideas <span class="font-body normal-case tracking-normal">({d().year})</span>
                     </h2>
                     <Show when={d().isSelf} fallback={null}>
-                      <span class="text-xs text-muted/70">bought marks stay hidden from {d().person.name}</span>
+                      <span class="text-xs text-slate">bought marks stay hidden from {d().person.name}</span>
                     </Show>
                   </div>
                   <Show
                     when={d().ideas.length > 0}
                     fallback={
-                      <p class="text-sm text-muted/80">
+                      <p class="text-sm text-slate">
                         {d().isSelf ? "Add things you'd love — it makes everyone else's life easier." : `No ideas on ${d().person.name}'s list for ${d().year}.`}
                       </p>
                     }
@@ -177,7 +177,7 @@ export default function PersonPage() {
                 </section>
 
                 <Show when={!d().isSelf && d().ideas.length === 0}>
-                  <p class="mt-6 text-center text-xs text-muted/70">
+                  <p class="mt-6 text-center text-xs text-slate">
                     Tip: gift ideas with links are the ones that get bought.
                   </p>
                 </Show>

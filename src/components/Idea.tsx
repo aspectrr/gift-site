@@ -23,7 +23,7 @@ export function IdeaRow(props: { idea: IdeaDTO; isSelf: boolean; personName: str
           <div class="flex flex-wrap items-center gap-2">
             <span class="font-display text-lg font-semibold leading-snug">{props.idea.title}</span>
             <Show when={props.idea.size === "big"}>
-              <span class="chip border border-gold/40 bg-transparent text-muted" title="Bigger gift">
+              <span class="chip border-ink bg-butter" title="Bigger gift">
                 big
               </span>
             </Show>
@@ -40,7 +40,7 @@ export function IdeaRow(props: { idea: IdeaDTO; isSelf: boolean; personName: str
                 href={props.idea.url!}
                 target="_blank"
                 rel="noopener"
-                class="chip border border-line hover:border-accent"
+                class="chip transition hover:bg-sky"
               >
                 🔗 {domain(props.idea.url!)}
               </a>
@@ -56,7 +56,7 @@ export function IdeaRow(props: { idea: IdeaDTO; isSelf: boolean; personName: str
               <Show when={confirming()}>
                 <form method="post" action={deleteIdeaAction} class="flex items-center gap-1.5">
                   <input type="hidden" name="ideaId" value={props.idea.id} />
-                  <button type="submit" class="chip border border-accent text-accent" disabled={del.pending}>
+                  <button type="submit" class="chip bg-peach" disabled={del.pending}>
                     delete for real
                   </button>
                   <button type="button" class="chip opacity-60" onClick={() => setConfirming(false)}>
@@ -72,8 +72,8 @@ export function IdeaRow(props: { idea: IdeaDTO; isSelf: boolean; personName: str
                 type="submit"
                 class="chip border transition"
                 classList={{
-                  "border-line text-muted hover:border-accent": !props.idea.bought,
-                  "border-sage bg-sage/15 text-ink": props.idea.bought,
+                  "bg-paper hover:bg-mint": !props.idea.bought,
+                  "bg-mint": props.idea.bought,
                 }}
                 disabled={toggle.pending}
                 title={props.idea.bought ? "Bought — tap to undo" : "Mark as bought (hidden from " + props.personName + ")"}
@@ -88,7 +88,7 @@ export function IdeaRow(props: { idea: IdeaDTO; isSelf: boolean; personName: str
               fallback={
                 <button
                   type="button"
-                  class="text-xs text-muted/70 underline decoration-dotted hover:text-accent"
+                  class="text-xs text-muted/70 underline decoration-dotted hover:text-plum"
                   onClick={() => setConfirming(true)}
                 >
                   remove
@@ -97,7 +97,7 @@ export function IdeaRow(props: { idea: IdeaDTO; isSelf: boolean; personName: str
             >
               <form method="post" action={deleteIdeaAction} class="flex items-center gap-1.5">
                 <input type="hidden" name="ideaId" value={props.idea.id} />
-                <button type="submit" class="chip border border-accent text-accent" disabled={del.pending}>
+                <button type="submit" class="chip bg-peach" disabled={del.pending}>
                   delete
                 </button>
                 <button type="button" class="chip opacity-60" onClick={() => setConfirming(false)}>
@@ -109,7 +109,7 @@ export function IdeaRow(props: { idea: IdeaDTO; isSelf: boolean; personName: str
         </div>
       </div>
       <Show when={(toggle.result as ActionResult | undefined)?.error === "self"}>
-        <p class="mt-2 text-xs font-bold text-accent" role="alert">
+        <p class="mt-2 text-xs font-bold text-plum" role="alert">
           You can't mark gifts on your own list.
         </p>
       </Show>
@@ -151,12 +151,12 @@ export function IdeaForm(props: { personId: number; year: number; personName: st
         <div>
           <span class="label">Size</span>
           <div class="flex gap-2">
-            <label class="flex min-h-11 flex-1 cursor-pointer items-center justify-center gap-2 rounded-full border border-line text-sm font-bold has-checked:border-accent has-checked:bg-accent-soft">
-              <input type="radio" name="size" value="small" checked class="accent-[var(--accent)]" />
+            <label class="flex min-h-11 flex-1 cursor-pointer items-center justify-center gap-2 rounded-full border border-ink text-sm font-bold text-ink has-checked:bg-mint">
+              <input type="radio" name="size" value="small" checked class="accent-black" />
               Small
             </label>
-            <label class="flex min-h-11 flex-1 cursor-pointer items-center justify-center gap-2 rounded-full border border-line text-sm font-bold has-checked:border-accent has-checked:bg-accent-soft">
-              <input type="radio" name="size" value="big" class="accent-[var(--accent)]" />
+            <label class="flex min-h-11 flex-1 cursor-pointer items-center justify-center gap-2 rounded-full border border-ink text-sm font-bold text-ink has-checked:bg-mint">
+              <input type="radio" name="size" value="big" class="accent-black" />
               Bigger
             </label>
           </div>
@@ -177,11 +177,11 @@ export function IdeaForm(props: { personId: number; year: number; personName: st
           {sub.pending ? "Adding…" : `Add to ${props.personName}'s list`}
         </button>
         <Show when={result()?.ok}>
-          <span class="chip border border-sage bg-sage/15">Added ✓ add another?</span>
+          <span class="chip bg-mint">Added ✓ add another?</span>
         </Show>
       </div>
       <Show when={result()?.error}>
-        <p class="text-sm font-bold text-accent" role="alert">
+        <p class="text-sm font-bold text-plum" role="alert">
           {result()!.error}
         </p>
       </Show>

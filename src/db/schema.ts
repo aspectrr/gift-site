@@ -5,10 +5,12 @@ export const people = sqliteTable("people", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   name: text("name").notNull().unique(),
   email: text("email"),
+  /** E.164-ish or freeform — collected for future SMS nudges */
+  phone: text("phone"),
   /** 'MM-DD', no birth year */
   birthday: text("birthday"),
   isKid: integer("is_kid", { mode: "boolean" }).notNull().default(false),
-  color: text("color").notNull().default("cranberry"),
+  color: text("color").notNull().default("mint"),
   createdAt: integer("created_at", { mode: "timestamp" })
     .notNull()
     .default(sql`(unixepoch())`),

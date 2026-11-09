@@ -8,6 +8,7 @@ const FAMILY = [
   {
     name: "Deb",
     email: "deb@example.com",
+    phone: "555-201-4417",
     birthday: "03-22",
     isKid: false,
     favorites: {
@@ -28,6 +29,7 @@ const FAMILY = [
   {
     name: "Matt",
     email: "matt@example.com",
+    phone: "555-881-0932",
     birthday: "09-07",
     isKid: false,
     favorites: {
@@ -45,6 +47,7 @@ const FAMILY = [
   {
     name: "Ava",
     email: "ava@example.com",
+    phone: null,
     birthday: "12-02",
     isKid: true,
     favorites: {
@@ -61,6 +64,7 @@ const FAMILY = [
   {
     name: "Cole",
     email: null,
+    phone: null,
     birthday: "07-19",
     isKid: true,
     favorites: {
@@ -73,6 +77,7 @@ const FAMILY = [
   {
     name: "Jessica",
     email: "jessica@example.com",
+    phone: "555-640-7723",
     birthday: "05-30",
     isKid: false,
     favorites: {
@@ -93,6 +98,7 @@ const FAMILY = [
   {
     name: "Ryan",
     email: "ryan@example.com",
+    phone: null,
     birthday: "02-29",
     isKid: false,
     favorites: {
@@ -105,6 +111,7 @@ const FAMILY = [
   {
     name: "Grandpa Joe",
     email: null,
+    phone: null,
     birthday: "11-21",
     isKid: false,
     favorites: {
@@ -118,6 +125,7 @@ const FAMILY = [
   {
     name: "Nana",
     email: "nana@example.com",
+    phone: null,
     birthday: "04-14",
     isKid: false,
     favorites: {
@@ -131,6 +139,7 @@ const FAMILY = [
   {
     name: "Tyler",
     email: "tyler@example.com",
+    phone: null,
     birthday: "10-01",
     isKid: false,
     favorites: {
@@ -143,6 +152,7 @@ const FAMILY = [
   {
     name: "Sophie",
     email: "sophie@example.com",
+    phone: null,
     birthday: "06-08",
     isKid: true,
     favorites: {
@@ -162,6 +172,7 @@ for (const member of FAMILY) {
     .values({
       name: member.name,
       email: member.email,
+      phone: member.phone ?? null,
       birthday: member.birthday,
       isKid: member.isKid,
       color: pickColor(member.name),

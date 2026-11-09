@@ -18,14 +18,14 @@ export const CATEGORY_LABELS: Record<string, string> = Object.fromEntries(
 );
 
 export const AVATAR_COLORS = [
-  "cranberry",
-  "sage",
-  "gold",
-  "plum",
+  "mint",
+  "sky",
+  "bubblegum",
+  "peach",
+  "lavender",
+  "butter",
+  "coral",
   "teal",
-  "terracotta",
-  "blue",
-  "pink",
 ] as const;
 
 export function pickColor(name: string): string {

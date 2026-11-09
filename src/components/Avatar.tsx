@@ -1,12 +1,12 @@
 const COLOR_CLASS: Record<string, string> = {
-  cranberry: "bg-cranberry",
-  sage: "bg-sage",
-  gold: "bg-gold",
-  plum: "bg-plum",
+  mint: "bg-mint",
+  sky: "bg-sky",
+  bubblegum: "bg-bubblegum",
+  peach: "bg-peach",
+  lavender: "bg-lavender",
+  butter: "bg-butter",
+  coral: "bg-coral",
   teal: "bg-teal",
-  terracotta: "bg-terracotta",
-  blue: "bg-blue",
-  pink: "bg-pink",
 };
 
 const SIZES = {
@@ -18,7 +18,7 @@ const SIZES = {
 export function Avatar(props: { name: string; color: string; size?: keyof typeof SIZES }) {
   return (
     <span
-      class={`flex shrink-0 items-center justify-center rounded-full font-display font-semibold text-[#fffdf9] ring-2 ring-paper ${COLOR_CLASS[props.color] ?? COLOR_CLASS.cranberry} ${SIZES[props.size ?? "md"]}`}
+      class={`flex shrink-0 items-center justify-center rounded-full border-[1.5px] border-ink font-display font-normal text-ink ${COLOR_CLASS[props.color] ?? COLOR_CLASS.mint} ${SIZES[props.size ?? "md"]}`}
       aria-hidden="true"
     >
       {props.name.trim().charAt(0).toUpperCase()}

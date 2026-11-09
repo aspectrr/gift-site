@@ -46,9 +46,22 @@ export function PersonForm(props: { data: PersonData; doneHref: string }) {
           />
         </div>
         <div>
+          <label class="label" for="f-phone">Phone</label>
+          <input
+            class="input"
+            id="f-phone"
+            name="phone"
+            type="tel"
+            inputmode="tel"
+            autocomplete="off"
+            value={p().phone ?? ""}
+            placeholder="(555) 123-4567 — for future texts"
+          />
+        </div>
+        <div>
           <span class="label">Section</span>
           <label class="flex min-h-11 items-center gap-2 text-sm font-bold">
-            <input type="checkbox" name="isKid" class="size-5 accent-[var(--accent)]" checked={p().isKid} />
+            <input type="checkbox" name="isKid" class="size-5 accent-black" checked={p().isKid} />
             Kid (groups them under “Kids”)
           </label>
         </div>
@@ -98,10 +111,10 @@ export function PersonForm(props: { data: PersonData; doneHref: string }) {
           Done
         </a>
         <Show when={result()?.ok}>
-          <span class="chip border border-sage bg-sage/15" role="status">Saved ✓</span>
+          <span class="chip bg-mint" role="status">Saved ✓</span>
         </Show>
         <Show when={result()?.error}>
-          <p class="w-full text-sm font-bold text-accent" role="alert">{result()!.error}</p>
+          <p class="w-full text-sm font-bold text-plum" role="alert">{result()!.error}</p>
         </Show>
       </div>
     </form>
@@ -112,7 +125,7 @@ export function PersonForm(props: { data: PersonData; doneHref: string }) {
         fallback={
           <button
             type="button"
-            class="text-xs text-muted/70 underline decoration-dotted hover:text-accent"
+            class="text-xs text-slate underline decoration-dotted hover:text-plum"
             onClick={() => setConfirmDelete(true)}
           >
             remove {p().name} from the chart
@@ -121,10 +134,10 @@ export function PersonForm(props: { data: PersonData; doneHref: string }) {
       >
         <form method="post" action={deletePersonAction} class="flex items-center gap-2">
           <input type="hidden" name="id" value={p().id} />
-          <span class="text-sm font-bold text-accent">
+          <span class="text-sm font-bold text-plum">
             Delete {p().name} and everything on their list?
           </span>
-          <button type="submit" class="chip border border-accent text-accent">yes, delete</button>
+          <button type="submit" class="chip bg-peach">yes, delete</button>
           <button type="button" class="chip opacity-60" onClick={() => setConfirmDelete(false)}>keep</button>
         </form>
       </Show>
