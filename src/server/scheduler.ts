@@ -6,7 +6,7 @@ import { runReminderJob } from "./reminder-job";
  * `bun run reminders:run`
  */
 export function startScheduler(): void {
-  if (process.env.NODE_ENV !== "production" && !process.env.FLY_APP_NAME) return;
+  if (Bun.env.NODE_ENV !== "production" && !Bun.env.FLY_APP_NAME) return;
 
   const tick = () =>
     runReminderJob().then(

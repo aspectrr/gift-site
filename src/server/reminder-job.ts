@@ -6,7 +6,7 @@ import { CATEGORIES } from "~/lib/categories";
 import { birthdayLabel } from "~/lib/occasions";
 import { sendEmail, appUrl } from "~/lib/email";
 
-const TZ = process.env.APP_TZ ?? "America/New_York";
+const TZ = Bun.env.APP_TZ ?? "America/New_York";
 
 export type ReminderJobResult = { sent: string[]; failures: string[] };
 

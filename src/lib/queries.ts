@@ -37,7 +37,7 @@ export const familyQuery = query(
     const { nextBirthdays, birthdayLabel } = await import("~/lib/occasions");
     const { currentYear } = await import("~/lib/categories");
 
-    const tz = process.env.APP_TZ ?? "America/New_York";
+    const tz = Bun.env.APP_TZ ?? "America/New_York";
     const year = currentYear();
     const now = new Date();
 
@@ -111,7 +111,7 @@ export const personQuery = query(
 
     const who = await getWho();
     const thisYear = currentYear();
-    const tz = process.env.APP_TZ ?? "America/New_York";
+    const tz = Bun.env.APP_TZ ?? "America/New_York";
 
     const yearRows = await db
       .selectDistinct({ year: interests.year })

@@ -3,6 +3,7 @@ import { useSubmission } from "@solidjs/router";
 import { deletePersonAction, savePersonAction, type ActionResult } from "~/lib/actions";
 import { CATEGORIES } from "~/lib/categories";
 import type { PersonData } from "~/lib/queries";
+import { formatBirthday, formatPhone } from "~/lib/format";
 
 export function PersonForm(props: { data: PersonData; doneHref: string }) {
   const sub = useSubmission(savePersonAction);
@@ -29,7 +30,7 @@ export function PersonForm(props: { data: PersonData; doneHref: string }) {
             value={p().birthday ?? ""}
             placeholder="04-09"
             inputmode="numeric"
-            pattern="\d{2}-\d{2}"
+            onInput={(e) => (e.currentTarget.value = formatBirthday(e.currentTarget.value))}
           />
         </div>
 <Show when={props.data.isSelf}>
@@ -56,7 +57,7 @@ export function PersonForm(props: { data: PersonData; doneHref: string }) {
             inputmode="tel"
             autocomplete="off"
             value={p().phone ?? ""}
-            placeholder="(555) 123-4567, for future texts"
+            onInput={(e) => (e.currentTarget.value = formatPhone(e.currentTarget.value))}
           />
         </div>
 </Show>
