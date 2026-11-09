@@ -12,17 +12,17 @@ const TOUR = [
   {
     pose: "point" as const,
     title: "Here's everyone",
-    body: "Birthdays ride along the top, and search finds anyone by anything — try “coffee” or “Zelda”. Grown-ups and kids each get their own section.",
+    body: "Birthdays ride along the top, and search finds anyone by anything. Try “coffee” or “Zelda”. Grown-ups and kids each get their own section.",
   },
   {
     pose: "cheer" as const,
     title: "Your page is your list",
-    body: "Favorites, what you're into right now, and gift ideas with links. Fill in as much or as little as you like — it saves everyone guesswork.",
+    body: "Favorites, what you're into right now, and gift ideas with links. Fill in as much or as little as you like. It saves everyone guesswork.",
   },
   {
     pose: "wink" as const,
     title: "Secret shopper marks",
-    body: "Anyone can mark one of your ideas “bought” so there are no duplicate gifts. You never see the marks — that's the point.",
+    body: "Anyone can mark one of your ideas “bought” so there are no duplicate gifts. You never see the marks. That's the point.",
   },
   {
     pose: "wave" as const,
@@ -89,7 +89,7 @@ export function Onboarding(props: { family: FamilyData; onDone: () => void }) {
             <h1 class="mt-2 font-display text-4xl tracking-tight text-ink">
               Hi, I'm <span class="swash">Dot</span>!
             </h1>
-            <p class="mt-2 text-slate">Who's here today? Pick your name — this phone remembers you.</p>
+            <p class="mt-2 text-slate">Who's here today? Pick your name. This phone remembers you.</p>
           </div>
           <div class="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-3">
             <For each={props.family.members.slice(0, 21)}>
@@ -109,7 +109,7 @@ export function Onboarding(props: { family: FamilyData; onDone: () => void }) {
             </For>
           </div>
           <button type="button" class="btn btn-primary mt-5 w-full" onClick={() => setStep("name")}>
-            None of these — I'm new!
+            None of these. I'm new!
           </button>
         </Match>
 
@@ -125,7 +125,7 @@ export function Onboarding(props: { family: FamilyData; onDone: () => void }) {
               )}
             </h1>
             <p class="mt-2 text-center text-slate">
-              Nicknames work fine — it's just for family.
+              Nicknames work fine. It's just for family.
             </p>
             <form
               class="mt-5 flex gap-2"
@@ -152,7 +152,7 @@ export function Onboarding(props: { family: FamilyData; onDone: () => void }) {
             <Show when={existsMatch()}>
               {(match) => (
                 <div class="mt-4 flex items-center justify-between gap-3 rounded-2xl border border-ink bg-peach px-4 py-3" role="alert">
-                  <p class="text-sm font-bold text-ink">{match().name} is already on the chart — that you?</p>
+                  <p class="text-sm font-bold text-ink">{match().name} is already on the chart. That you?</p>
                   <form method="post" action={pickAction}>
                     <input type="hidden" name="id" value={match().id} />
                     <button type="submit" class="btn btn-primary min-h-0 py-2" disabled={pick.pending}>Yes</button>
@@ -177,7 +177,7 @@ export function Onboarding(props: { family: FamilyData; onDone: () => void }) {
               When's your <span class="swash">birthday</span>?
             </h1>
             <p class="mt-2 text-center text-slate">
-              Month and day is plenty — I'll remind everyone a week before. No year, we promise.
+              Month and day is plenty. I'll remind everyone a week before. No year, we promise.
             </p>
             <form
               class="mt-5 flex flex-wrap gap-2"
@@ -199,7 +199,7 @@ export function Onboarding(props: { family: FamilyData; onDone: () => void }) {
             </form>
             <Show when={joinResult()?.error === "birthday"}>
               <p class="mt-3 text-center text-sm font-bold text-ink" role="alert">
-                Hmm, that doesn't look like a date — try 04-09 style.
+                Hmm, that doesn't look like a date. Try 04-09 style.
               </p>
             </Show>
             <button type="button" class="mt-4 w-full text-center text-xs text-slate underline decoration-dotted" onClick={() => setStep("name")}>
@@ -216,7 +216,7 @@ export function Onboarding(props: { family: FamilyData; onDone: () => void }) {
               Got a <span class="swash">phone</span>?
             </h1>
             <p class="mt-2 text-center text-slate">
-              For birthday pings 📱 Texts aren't switched on yet — but your number will be ready and waiting.
+              For birthday pings 📱 Texts aren't switched on yet, but your number will be ready and waiting.
             </p>
             <form
               class="mt-5 flex flex-wrap gap-2"

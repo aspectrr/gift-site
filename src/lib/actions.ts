@@ -165,7 +165,7 @@ export const addIdeaAction = action(async (fd: FormData): Promise<ActionResult> 
       if (u.protocol !== "http:" && u.protocol !== "https:") throw new Error();
       url = u.toString();
     } catch {
-      return { error: "That link doesn't look right — paste the full address, starting with https://" };
+      return { error: "That link doesn't look right. Paste the full address, starting with https://" };
     }
   }
 

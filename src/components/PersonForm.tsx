@@ -43,7 +43,7 @@ export function PersonForm(props: { data: PersonData; doneHref: string }) {
             inputmode="email"
             autocomplete="off"
             value={p().email ?? ""}
-            placeholder="Optional — where nudges land"
+            placeholder="Optional, where nudges land"
           />
         </div>
         <div>
@@ -56,7 +56,7 @@ export function PersonForm(props: { data: PersonData; doneHref: string }) {
             inputmode="tel"
             autocomplete="off"
             value={p().phone ?? ""}
-            placeholder="(555) 123-4567 — for future texts"
+            placeholder="(555) 123-4567, for future texts"
           />
         </div>
 </Show>
@@ -71,7 +71,7 @@ export function PersonForm(props: { data: PersonData; doneHref: string }) {
 
       <div>
         <label class="label" for="f-into">
-          Into right now <span class="normal-case">({new Date().getFullYear()} — keeps last year's note too)</span>
+          Into right now <span class="normal-case">({new Date().getFullYear()}, keeps last year's note too)</span>
         </label>
         <textarea
           class="input"

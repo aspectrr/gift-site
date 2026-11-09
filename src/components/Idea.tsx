@@ -76,7 +76,7 @@ export function IdeaRow(props: { idea: IdeaDTO; isSelf: boolean; personName: str
                   "bg-mint": props.idea.bought,
                 }}
                 disabled={toggle.pending}
-                title={props.idea.bought ? "Bought — tap to undo" : "Mark as bought (hidden from " + props.personName + ")"}
+                title={props.idea.bought ? "Bought. Tap to undo" : "Mark as bought (hidden from " + props.personName + ")"}
               >
                 {props.idea.bought ? "Bought ✓ (undo)" : "Mark bought"}
               </button>

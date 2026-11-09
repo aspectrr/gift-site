@@ -132,7 +132,7 @@ const FAMILY = [
     birthday: "04-14",
     isKid: false,
     favorites: {
-      coffee_order: "Tea — Constant Comment",
+      coffee_order: "Tea, Constant Comment",
       restaurants: "Anywhere with early-bird specials",
       collections: "Blue willow china",
     },

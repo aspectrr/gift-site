@@ -158,7 +158,7 @@ export function PeopleDirectory(props: { family: FamilyData }) {
           <input
             class="input rounded-xl pl-11"
             type="search"
-            placeholder={`Search ${props.family.members.length} people — "coffee", "Zelda"…`}
+            placeholder={`Search ${props.family.members.length} people: "coffee", "Zelda"…`}
             value={q()}
             onInput={(e) => setQ(e.currentTarget.value)}
           />
@@ -172,7 +172,7 @@ export function PeopleDirectory(props: { family: FamilyData }) {
             <div class="flex justify-center"><Mascot pose="think" size={110} /></div>
             <p class="mt-2 font-display text-2xl text-ink">No one matches “{q()}”</p>
             <p class="mx-auto mt-2 max-w-sm text-left text-sm text-slate">
-              Search checks names, favorites, interests, and gift ideas — try fewer words.
+              Search checks names, favorites, interests, and gift ideas. Try fewer words.
             </p>
           </div>
         }
