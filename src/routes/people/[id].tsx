@@ -172,7 +172,7 @@ export default function PersonPage() {
                     when={d().ideas.length > 0}
                     fallback={
                       <p class="text-sm text-slate">
-                        {d().isSelf ? "Add things you'd love — it makes everyone else's life easier." : `No ideas on ${d().person.name}'s list for ${d().year}.`}
+                        {d().isSelf ? "Add a few things you want. It makes everyone else's life easier." : `No ideas on ${d().person.name}'s list for ${d().year}.`}
                       </p>
                     }
                   >
