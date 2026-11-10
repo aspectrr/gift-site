@@ -1,5 +1,5 @@
 import { createSignal, For, onCleanup, onMount, Show } from "solid-js";
-import { useAction, useNavigate } from "@solidjs/router";
+import { useAction, useBeforeLeave, useNavigate } from "@solidjs/router";
 import {
   deletePersonAction,
   savePersonAction,
@@ -11,14 +11,34 @@ import { formatBirthday, formatPhone } from "~/lib/format";
 
 const AUTOSAVE_MS = 3000;
 
+type SaveStatus = "idle" | "saving" | "saved" | "error";
+
+function FieldSaveHint(props: {
+  field: string;
+  active: () => string;
+  status: () => SaveStatus;
+}) {
+  return (
+    <Show
+      when={
+        props.active() === props.field &&
+        (props.status() === "saving" || props.status() === "saved")
+      }
+    >
+      <p class="mt-1 text-xs text-slate" role="status">
+        {props.status() === "saving" ? "Saving…" : "Saved ✓"}
+      </p>
+    </Show>
+  );
+}
+
 export function PersonForm(props: { data: PersonData; doneHref: string }) {
   const save = useAction(savePersonAction);
   const navigate = useNavigate();
   const [confirmDelete, setConfirmDelete] = createSignal(false);
   const p = () => props.data.person;
-  const [status, setStatus] = createSignal<
-    "idle" | "saving" | "saved" | "error"
-  >("idle");
+  const [activeField, setActiveField] = createSignal("");
+  const [status, setStatus] = createSignal<SaveStatus>("idle");
   const [error, setError] = createSignal("");
   const [dirty, setDirty] = createSignal(false);
   let formEl!: HTMLFormElement;
@@ -46,8 +66,9 @@ export function PersonForm(props: { data: PersonData; doneHref: string }) {
     return true;
   };
 
-  const queueSave = () => {
+  const queueSave = (field?: string) => {
     setDirty(true);
+    if (field) setActiveField(field);
     setError("");
     if (status() === "saving") return; // in-flight save catches up on settle
     setStatus("idle");
@@ -61,14 +82,17 @@ export function PersonForm(props: { data: PersonData; doneHref: string }) {
     if (await performSave()) navigate(props.doneHref);
   };
 
-  // last keystrokes may not have cleared the 3s debounce yet
-  const onPageHide = () => {
-    if (!dirty() || status() === "saving") return;
+  // unsaved text must survive any exit: SPA link navigations fire
+  // beforeLeave, tab closes and reloads fire pagehide. sendBeacon is
+  // fire-and-forget and survives the unload.
+  const flush = () => {
+    if (!dirty() || !formEl) return;
     navigator.sendBeacon(formEl.action, new FormData(formEl));
   };
+  useBeforeLeave(flush);
   onMount(() => {
-    window.addEventListener("pagehide", onPageHide);
-    onCleanup(() => window.removeEventListener("pagehide", onPageHide));
+    window.addEventListener("pagehide", flush);
+    onCleanup(() => window.removeEventListener("pagehide", flush));
   });
   onCleanup(() => clearTimeout(timer));
 
@@ -80,8 +104,8 @@ export function PersonForm(props: { data: PersonData; doneHref: string }) {
         action={savePersonAction}
         class="card mt-4 animate-rise space-y-6 p-5 sm:p-6"
         onSubmit={(e) => e.preventDefault()}
-        onInput={queueSave}
-        onChange={queueSave}
+        onInput={(e) => queueSave((e.target as HTMLInputElement).name)}
+        onChange={(e) => queueSave((e.target as HTMLInputElement).name)}
       >
         <input type="hidden" name="id" value={p().id} />
 
@@ -98,6 +122,7 @@ export function PersonForm(props: { data: PersonData; doneHref: string }) {
               maxlength="40"
               required
             />
+            <FieldSaveHint field="name" active={activeField} status={status} />
           </div>
           <div>
             <label class="label" for="f-birthday">
@@ -114,6 +139,11 @@ export function PersonForm(props: { data: PersonData; doneHref: string }) {
                 (e.currentTarget.value = formatBirthday(e.currentTarget.value))
               }
             />
+            <FieldSaveHint
+              field="birthday"
+              active={activeField}
+              status={status}
+            />
           </div>
           <Show when={props.data.isSelf}>
             <div>
@@ -129,6 +159,11 @@ export function PersonForm(props: { data: PersonData; doneHref: string }) {
                 autocomplete="off"
                 value={p().email ?? ""}
                 placeholder="Optional, where nudges land"
+              />
+              <FieldSaveHint
+                field="email"
+                active={activeField}
+                status={status}
               />
             </div>
             <div>
@@ -147,6 +182,11 @@ export function PersonForm(props: { data: PersonData; doneHref: string }) {
                   (e.currentTarget.value = formatPhone(e.currentTarget.value))
                 }
               />
+              <FieldSaveHint
+                field="phone"
+                active={activeField}
+                status={status}
+              />
             </div>
           </Show>
           <div>
@@ -160,6 +200,7 @@ export function PersonForm(props: { data: PersonData; doneHref: string }) {
               />
               Kid (groups them under “Kids”)
             </label>
+            <FieldSaveHint field="isKid" active={activeField} status={status} />
           </div>
         </div>
 
@@ -179,6 +220,11 @@ export function PersonForm(props: { data: PersonData; doneHref: string }) {
           >
             {props.data.interest}
           </textarea>
+          <FieldSaveHint
+            field="into_now"
+            active={activeField}
+            status={status}
+          />
         </div>
 
         <fieldset class="space-y-4">
@@ -201,6 +247,11 @@ export function PersonForm(props: { data: PersonData; doneHref: string }) {
                 >
                   {props.data.favorites[cat.key] ?? ""}
                 </textarea>
+                <FieldSaveHint
+                  field={`cat_${cat.key}`}
+                  active={activeField}
+                  status={status}
+                />
               </div>
             )}
           </For>
@@ -215,16 +266,6 @@ export function PersonForm(props: { data: PersonData; doneHref: string }) {
           <a href={props.doneHref} class="btn btn-ghost" onClick={onDone}>
             Done
           </a>
-          <Show when={status() === "saving"}>
-            <span class="chip" role="status">
-              Saving…
-            </span>
-          </Show>
-          <Show when={status() === "saved"}>
-            <span class="chip bg-mint" role="status">
-              Saved ✓
-            </span>
-          </Show>
           <Show when={status() === "error"}>
             <p class="w-full text-sm font-bold text-plum" role="alert">
               {error()}
