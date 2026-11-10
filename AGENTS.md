@@ -20,6 +20,8 @@ the person it names is the "viewer".
 
 - Bun runtime, not Node. `bun:sqlite` "could not be resolved" build warnings are
   normal (external dependency) — don't try to fix them.
+- `bun lint` needs Bun canary (repo pins 1.4.4-canary.1 in CI; stable Bun says
+  "Script not found"). Unpin setup-bun once lint ships in stable.
 - Local DB is `data/gifts.db` (gitignored). `DB_PATH` env overrides it; fly.io
   mounts `/data`.
 - `APP_SECRET` signs the `who` cookie; `dev-secret-change-me` default is dev-only.
