@@ -13,7 +13,8 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - run: bun install --frozen-lockfile
       - run: bun fmt --check
-      - run: bun run lint
+      - run: bun lint src
+      - run: bun run typecheck
       - run: bun test
 
   docker:

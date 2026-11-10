@@ -41,7 +41,7 @@ export function resolveBirthday(
 ): { m: number; d: number } | null {
   const match = /^(\d{2})-(\d{2})$/.exec(mmdd);
   if (!match) return null;
-  let m = Number(match[1]);
+  const m = Number(match[1]);
   let d = Number(match[2]);
   if (m < 1 || m > 12) return null;
   const maxDay = [

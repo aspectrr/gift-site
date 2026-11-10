@@ -14,7 +14,7 @@
     "seed": "bun run src/db/seed.ts",
     "reminders:run": "bun run src/server/run-reminders.ts",
     "test": "bun test",
-    "lint": "oxlint src",
+    "typecheck": "tsc --noEmit",
     "prepare": "husky"
   },
   "dependencies": {
@@ -30,7 +30,6 @@
     "@types/bun": "^1.4.4",
     "drizzle-kit": "^0.31.1",
     "husky": "^9.1.7",
-    "oxlint": "^1.93.0",
     "tailwindcss": "^4.1.8",
     "typescript": "^5.8.3"
   },

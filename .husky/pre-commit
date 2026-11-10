@@ -1,4 +1,5 @@
-# format staged files (and re-stage), then lint + test the repo
+# format staged files (and re-stage), then lint, typecheck, and test the repo
 bun fmt --staged
-bun run lint
+bun lint src
+bun run typecheck
 bun test
