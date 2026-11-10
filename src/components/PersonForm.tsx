@@ -1,5 +1,5 @@
-import { createSignal, For, Show } from "solid-js";
-import { useSubmission } from "@solidjs/router";
+import { createSignal, For, onCleanup, onMount, Show } from "solid-js";
+import { useAction, useNavigate } from "@solidjs/router";
 import {
   deletePersonAction,
   savePersonAction,
@@ -9,18 +9,79 @@ import { CATEGORIES } from "~/lib/categories";
 import type { PersonData } from "~/lib/queries";
 import { formatBirthday, formatPhone } from "~/lib/format";
 
+const AUTOSAVE_MS = 3000;
+
 export function PersonForm(props: { data: PersonData; doneHref: string }) {
-  const sub = useSubmission(savePersonAction);
-  const result = () => sub.result as ActionResult | undefined;
+  const save = useAction(savePersonAction);
+  const navigate = useNavigate();
   const [confirmDelete, setConfirmDelete] = createSignal(false);
   const p = () => props.data.person;
+  const [status, setStatus] = createSignal<
+    "idle" | "saving" | "saved" | "error"
+  >("idle");
+  const [error, setError] = createSignal("");
+  const [dirty, setDirty] = createSignal(false);
+  let formEl!: HTMLFormElement;
+  let timer: ReturnType<typeof setTimeout> | undefined;
+
+  // setDirty(false) at the start means edits typed mid-request re-dirty the
+  // form, and the dirty() check below saves them in a catch-up pass.
+  const performSave = async (): Promise<boolean> => {
+    clearTimeout(timer);
+    setDirty(false);
+    setStatus("saving");
+    let res: ActionResult;
+    try {
+      res = await save(new FormData(formEl));
+    } catch {
+      res = { error: "Couldn't save — check your connection and try again." };
+    }
+    if (res.error) {
+      setError(res.error);
+      setStatus("error");
+      return false;
+    }
+    if (dirty()) return performSave();
+    setStatus("saved");
+    return true;
+  };
+
+  const queueSave = () => {
+    setDirty(true);
+    setError("");
+    if (status() === "saving") return; // in-flight save catches up on settle
+    setStatus("idle");
+    clearTimeout(timer);
+    timer = setTimeout(() => void performSave(), AUTOSAVE_MS);
+  };
+
+  const onDone = async (e: MouseEvent) => {
+    if (!dirty() && status() !== "saving" && status() !== "error") return;
+    e.preventDefault();
+    if (await performSave()) navigate(props.doneHref);
+  };
+
+  // last keystrokes may not have cleared the 3s debounce yet
+  const onPageHide = () => {
+    if (!dirty() || status() === "saving") return;
+    navigator.sendBeacon(formEl.action, new FormData(formEl));
+  };
+  onMount(() => {
+    window.addEventListener("pagehide", onPageHide);
+    onCleanup(() => window.removeEventListener("pagehide", onPageHide));
+  });
+  onCleanup(() => clearTimeout(timer));
 
   return (
     <>
       <form
+        ref={(el) => (formEl = el)}
         method="post"
         action={savePersonAction}
         class="card mt-4 animate-rise space-y-6 p-5 sm:p-6"
+        onSubmit={(e) => e.preventDefault()}
+        onInput={queueSave}
+        onChange={queueSave}
       >
         <input type="hidden" name="id" value={p().id} />
 
@@ -146,20 +207,27 @@ export function PersonForm(props: { data: PersonData; doneHref: string }) {
         </fieldset>
 
         <div class="flex flex-wrap items-center gap-3">
-          <button type="submit" class="btn btn-primary" disabled={sub.pending}>
-            {sub.pending ? "Saving…" : "Save"}
-          </button>
-          <a href={props.doneHref} class="btn btn-ghost">
+          <noscript>
+            <button type="submit" class="btn btn-primary">
+              Save
+            </button>
+          </noscript>
+          <a href={props.doneHref} class="btn btn-ghost" onClick={onDone}>
             Done
           </a>
-          <Show when={result()?.ok}>
+          <Show when={status() === "saving"}>
+            <span class="chip" role="status">
+              Saving…
+            </span>
+          </Show>
+          <Show when={status() === "saved"}>
             <span class="chip bg-mint" role="status">
               Saved ✓
             </span>
           </Show>
-          <Show when={result()?.error}>
+          <Show when={status() === "error"}>
             <p class="w-full text-sm font-bold text-plum" role="alert">
-              {result()!.error}
+              {error()}
             </p>
           </Show>
         </div>
