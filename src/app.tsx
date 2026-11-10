@@ -30,7 +30,7 @@ const Header = () => {
     <header class="sticky top-0 z-40 border-b border-fog bg-cream/90 backdrop-blur-md">
       <div class="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
         <A href="/" class="font-display text-xl tracking-tight text-ink">
-          <span class="swash">Howard's</span> Favorites
+          <span class="swash">Howards'</span> Favorites
         </A>
         {/* identity chip reads an async query — needs its own Suspense boundary,
             otherwise SSR defers it as a bare marker pair and hydration mismatches */}
@@ -64,7 +64,7 @@ export default function App() {
     <Router
       root={(props) => (
         <MetaProvider>
-          <Title>Howard's Favorites</Title>
+          <Title>Howards' Favorites</Title>
           <div class="flex min-h-dvh flex-col">
             <Header />
             <main class="mx-auto w-full max-w-5xl flex-1 px-4 pb-20 pt-6">

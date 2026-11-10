@@ -2,7 +2,7 @@
 
 export async function sendEmail(opts: { to: string; subject: string; html: string }): Promise<void> {
   const key = Bun.env.RESEND_API_KEY;
-  const from = Bun.env.RESEND_FROM ?? "Howard's Favorites <onboarding@resend.dev>";
+  const from = Bun.env.RESEND_FROM ?? "Howards' Favorites <onboarding@resend.dev>";
 
   if (!key) {
     console.log(`[email:dry-run] to=${opts.to} subject="${opts.subject}"`);

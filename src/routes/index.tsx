@@ -14,7 +14,7 @@ export default function Home() {
 
   return (
     <>
-      <Title>Howard's Favorites</Title>
+      <Title>Howards' Favorites</Title>
       <Show
         when={family()}
         fallback={<p class="pt-16 text-center text-slate">Warming up the chart…</p>}

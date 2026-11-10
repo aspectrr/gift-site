@@ -43,7 +43,7 @@ export default function PersonPage() {
         <Match when={data()}>
           {(d) => (
             <div class="mx-auto max-w-2xl">
-              <Title>{d().person.name} · Howard's Favorites</Title>
+              <Title>{d().person.name} · Howards' Favorites</Title>
 
               <A href="/" class="text-sm font-bold text-slate underline decoration-dotted hover:text-plum">← Everyone</A>
 
