@@ -9,7 +9,7 @@ import { CATEGORIES } from "~/lib/categories";
 import type { PersonData } from "~/lib/queries";
 import { formatBirthday, formatPhone } from "~/lib/format";
 
-const AUTOSAVE_MS = 3000;
+const AUTOSAVE_MS = 500;
 
 type SaveStatus = "idle" | "saving" | "saved" | "error";
 
@@ -25,8 +25,13 @@ function FieldSaveHint(props: {
         (props.status() === "saving" || props.status() === "saved")
       }
     >
-      <p class="mt-1 text-xs text-slate" role="status">
-        {props.status() === "saving" ? "Saving…" : "Saved ✓"}
+      <p class="mt-1" role="status">
+        <Show
+          when={props.status() === "saving"}
+          fallback={<span class="chip bg-mint text-xs">Saved ✓</span>}
+        >
+          <span class="chip bg-sky text-xs animate-pulse">Saving…</span>
+        </Show>
       </p>
     </Show>
   );
