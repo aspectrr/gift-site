@@ -13,7 +13,8 @@
     "migrate": "bun run src/db/migrate.ts",
     "seed": "bun run src/db/seed.ts",
     "reminders:run": "bun run src/server/run-reminders.ts",
-    "test": "bun test"
+    "test": "bun test",
+    "lint": "oxlint src"
   },
   "dependencies": {
     "@solidjs/meta": "^0.29.7",
@@ -27,6 +28,7 @@
     "@tailwindcss/vite": "^4.1.8",
     "@types/bun": "^1.4.4",
     "drizzle-kit": "^0.31.1",
+    "oxlint": "^1.93.0",
     "tailwindcss": "^4.1.8",
     "typescript": "^5.8.3"
   },
