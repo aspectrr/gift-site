@@ -62,14 +62,14 @@ Add to iPhone home screen via Safari → Share → Add to Home Screen.
 
 ## Env
 
-| Var | Default | What it does |
-| --- | --- | --- |
-| `DB_PATH` | `./data/gifts.db` | SQLite file (Fly: `/data/gifts.db` on the volume) |
-| `APP_SECRET` | dev fallback | HMAC key for the identity cookie — set in prod |
-| `APP_URL` | `http://localhost:3000` | used in reminder email links |
-| `APP_TZ` | `America/New_York` | timezone for birthday/reminder math |
-| `RESEND_API_KEY` | unset → dry-run | emails log instead of send |
-| `RESEND_FROM` | `Howards' Favorites <onboarding@resend.dev>` | sender identity |
+| Var              | Default                                      | What it does                                      |
+| ---------------- | -------------------------------------------- | ------------------------------------------------- |
+| `DB_PATH`        | `./data/gifts.db`                            | SQLite file (Fly: `/data/gifts.db` on the volume) |
+| `APP_SECRET`     | dev fallback                                 | HMAC key for the identity cookie — set in prod    |
+| `APP_URL`        | `http://localhost:3000`                      | used in reminder email links                      |
+| `APP_TZ`         | `America/New_York`                           | timezone for birthday/reminder math               |
+| `RESEND_API_KEY` | unset → dry-run                              | emails log instead of send                        |
+| `RESEND_FROM`    | `Howards' Favorites <onboarding@resend.dev>` | sender identity                                   |
 
 ## Not in the MVP (yet)
 

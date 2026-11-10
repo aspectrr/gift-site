@@ -39,14 +39,20 @@ const Header = () => {
             when={who()}
             fallback={
               <Show when={location.pathname !== "/"}>
-                <A href="/" class="rounded-full border border-ink bg-mint px-3 py-1 text-xs font-bold text-ink">
+                <A
+                  href="/"
+                  class="rounded-full border border-ink bg-mint px-3 py-1 text-xs font-bold text-ink"
+                >
                   Who are you?
                 </A>
               </Show>
             }
           >
             <div class="flex items-center gap-3">
-              <A href="/me" class="flex items-center gap-2 rounded-full border border-ink bg-paper py-1 pl-1 pr-3 transition hover:bg-mint">
+              <A
+                href="/me"
+                class="flex items-center gap-2 rounded-full border border-ink bg-paper py-1 pl-1 pr-3 transition hover:bg-mint"
+              >
                 <Avatar name={who()!.name} color={who()!.color} size="sm" />
                 <span class="text-sm font-bold text-ink">{who()!.name}</span>
               </A>

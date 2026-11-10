@@ -27,7 +27,10 @@ const PRESETS: Array<Array<{ x: string; y: string; s: number; c: string }>> = [
 export function Confetti(props: { preset?: number; class?: string }) {
   const dots = PRESETS[(props.preset ?? 0) % PRESETS.length];
   return (
-    <div class={`pointer-events-none absolute inset-0 overflow-hidden ${props.class ?? ""}`} aria-hidden="true">
+    <div
+      class={`pointer-events-none absolute inset-0 overflow-hidden ${props.class ?? ""}`}
+      aria-hidden="true"
+    >
       {dots.map((d) => (
         <span
           style={{

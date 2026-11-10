@@ -1,6 +1,11 @@
 import { createSignal, Show } from "solid-js";
 import { useSubmission } from "@solidjs/router";
-import { deleteIdeaAction, toggleBoughtAction, addIdeaAction, type ActionResult } from "~/lib/actions";
+import {
+  deleteIdeaAction,
+  toggleBoughtAction,
+  addIdeaAction,
+  type ActionResult,
+} from "~/lib/actions";
 import type { IdeaDTO } from "~/lib/queries";
 
 function domain(url: string): string {
@@ -11,7 +16,11 @@ function domain(url: string): string {
   }
 }
 
-export function IdeaRow(props: { idea: IdeaDTO; isSelf: boolean; personName: string }) {
+export function IdeaRow(props: {
+  idea: IdeaDTO;
+  isSelf: boolean;
+  personName: string;
+}) {
   const toggle = useSubmission(toggleBoughtAction);
   const del = useSubmission(deleteIdeaAction);
   const [confirming, setConfirming] = createSignal(false);
@@ -21,7 +30,9 @@ export function IdeaRow(props: { idea: IdeaDTO; isSelf: boolean; personName: str
       <div class="flex items-start justify-between gap-3">
         <div class="min-w-0 flex-1">
           <div class="flex flex-wrap items-center gap-2">
-            <span class="font-display text-lg font-semibold leading-snug">{props.idea.title}</span>
+            <span class="font-display text-lg font-semibold leading-snug">
+              {props.idea.title}
+            </span>
             <Show when={props.idea.size === "big"}>
               <span class="chip border-ink bg-butter" title="Bigger gift">
                 big
@@ -34,7 +45,11 @@ export function IdeaRow(props: { idea: IdeaDTO; isSelf: boolean; personName: str
           <div class="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5">
             <Show
               when={props.idea.url}
-              fallback={<span class="text-xs text-muted">added by {props.idea.addedByName}</span>}
+              fallback={
+                <span class="text-xs text-muted">
+                  added by {props.idea.addedByName}
+                </span>
+              }
             >
               <a
                 href={props.idea.url!}
@@ -44,7 +59,9 @@ export function IdeaRow(props: { idea: IdeaDTO; isSelf: boolean; personName: str
               >
                 🔗 {domain(props.idea.url!)}
               </a>
-              <span class="text-xs text-muted">added by {props.idea.addedByName}</span>
+              <span class="text-xs text-muted">
+                added by {props.idea.addedByName}
+              </span>
             </Show>
           </div>
         </div>
@@ -54,12 +71,24 @@ export function IdeaRow(props: { idea: IdeaDTO; isSelf: boolean; personName: str
             when={!props.isSelf}
             fallback={
               <Show when={confirming()}>
-                <form method="post" action={deleteIdeaAction} class="flex items-center gap-1.5">
+                <form
+                  method="post"
+                  action={deleteIdeaAction}
+                  class="flex items-center gap-1.5"
+                >
                   <input type="hidden" name="ideaId" value={props.idea.id} />
-                  <button type="submit" class="chip bg-peach" disabled={del.pending}>
+                  <button
+                    type="submit"
+                    class="chip bg-peach"
+                    disabled={del.pending}
+                  >
                     delete for real
                   </button>
-                  <button type="button" class="chip opacity-60" onClick={() => setConfirming(false)}>
+                  <button
+                    type="button"
+                    class="chip opacity-60"
+                    onClick={() => setConfirming(false)}
+                  >
                     keep
                   </button>
                 </form>
@@ -76,7 +105,11 @@ export function IdeaRow(props: { idea: IdeaDTO; isSelf: boolean; personName: str
                   "bg-mint": props.idea.bought,
                 }}
                 disabled={toggle.pending}
-                title={props.idea.bought ? "Bought. Tap to undo" : "Mark as bought (hidden from " + props.personName + ")"}
+                title={
+                  props.idea.bought
+                    ? "Bought. Tap to undo"
+                    : "Mark as bought (hidden from " + props.personName + ")"
+                }
               >
                 {props.idea.bought ? "Bought ✓ (undo)" : "Mark bought"}
               </button>
@@ -95,12 +128,24 @@ export function IdeaRow(props: { idea: IdeaDTO; isSelf: boolean; personName: str
                 </button>
               }
             >
-              <form method="post" action={deleteIdeaAction} class="flex items-center gap-1.5">
+              <form
+                method="post"
+                action={deleteIdeaAction}
+                class="flex items-center gap-1.5"
+              >
                 <input type="hidden" name="ideaId" value={props.idea.id} />
-                <button type="submit" class="chip bg-peach" disabled={del.pending}>
+                <button
+                  type="submit"
+                  class="chip bg-peach"
+                  disabled={del.pending}
+                >
                   delete
                 </button>
-                <button type="button" class="chip opacity-60" onClick={() => setConfirming(false)}>
+                <button
+                  type="button"
+                  class="chip opacity-60"
+                  onClick={() => setConfirming(false)}
+                >
                   keep
                 </button>
               </form>
@@ -108,7 +153,9 @@ export function IdeaRow(props: { idea: IdeaDTO; isSelf: boolean; personName: str
           </Show>
         </div>
       </div>
-      <Show when={(toggle.result as ActionResult | undefined)?.error === "self"}>
+      <Show
+        when={(toggle.result as ActionResult | undefined)?.error === "self"}
+      >
         <p class="mt-2 text-xs font-bold text-plum" role="alert">
           You can't mark gifts on your own list.
         </p>
@@ -117,15 +164,25 @@ export function IdeaRow(props: { idea: IdeaDTO; isSelf: boolean; personName: str
   );
 }
 
-export function IdeaForm(props: { personId: number; year: number; personName: string }) {
+export function IdeaForm(props: {
+  personId: number;
+  year: number;
+  personName: string;
+}) {
   const sub = useSubmission(addIdeaAction);
   const result = () => sub.result as ActionResult | undefined;
   return (
-    <form method="post" action={addIdeaAction} class="card mt-4 space-y-4 p-4 sm:p-5">
+    <form
+      method="post"
+      action={addIdeaAction}
+      class="card mt-4 space-y-4 p-4 sm:p-5"
+    >
       <input type="hidden" name="personId" value={props.personId} />
       <input type="hidden" name="year" value={props.year} />
       <div>
-        <label class="label" for="idea-title">Gift idea</label>
+        <label class="label" for="idea-title">
+          Gift idea
+        </label>
         <input
           class="input"
           id="idea-title"
@@ -137,7 +194,9 @@ export function IdeaForm(props: { personId: number; year: number; personName: st
       </div>
       <div class="grid gap-4 sm:grid-cols-2">
         <div>
-          <label class="label" for="idea-url">Link (optional)</label>
+          <label class="label" for="idea-url">
+            Link (optional)
+          </label>
           <input
             class="input"
             id="idea-url"
@@ -152,18 +211,31 @@ export function IdeaForm(props: { personId: number; year: number; personName: st
           <span class="label">Size</span>
           <div class="flex gap-2">
             <label class="flex min-h-11 flex-1 cursor-pointer items-center justify-center gap-2 rounded-full border border-ink text-sm font-bold text-ink has-checked:bg-mint">
-              <input type="radio" name="size" value="small" checked class="accent-black" />
+              <input
+                type="radio"
+                name="size"
+                value="small"
+                checked
+                class="accent-black"
+              />
               Small
             </label>
             <label class="flex min-h-11 flex-1 cursor-pointer items-center justify-center gap-2 rounded-full border border-ink text-sm font-bold text-ink has-checked:bg-mint">
-              <input type="radio" name="size" value="big" class="accent-black" />
+              <input
+                type="radio"
+                name="size"
+                value="big"
+                class="accent-black"
+              />
               Bigger
             </label>
           </div>
         </div>
       </div>
       <div>
-        <label class="label" for="idea-note">Note (optional)</label>
+        <label class="label" for="idea-note">
+          Note (optional)
+        </label>
         <textarea
           class="input"
           id="idea-note"

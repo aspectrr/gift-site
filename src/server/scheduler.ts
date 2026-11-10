@@ -11,8 +11,10 @@ export function startScheduler(): void {
   const tick = () =>
     runReminderJob().then(
       (r) => {
-        if (r.sent.length) console.log(`[reminders] sent: ${r.sent.join(", ")}`);
-        if (r.failures.length) console.error(`[reminders] failed: ${r.failures.join(", ")}`);
+        if (r.sent.length)
+          console.log(`[reminders] sent: ${r.sent.join(", ")}`);
+        if (r.failures.length)
+          console.error(`[reminders] failed: ${r.failures.join(", ")}`);
       },
       (err) => console.error("[reminders] job crashed:", err),
     );

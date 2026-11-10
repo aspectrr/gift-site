@@ -20,11 +20,24 @@ const FAMILY = [
       hobbies: "Scrapbooking, her garden",
       collections: "Salt & pepper shakers",
     },
-    interests: { [currentYear()]: "Watercolor painting, grandkids' sports schedules", [currentYear() - 1]: "Puzzles, The Chosen" },
+    interests: {
+      [currentYear()]: "Watercolor painting, grandkids' sports schedules",
+      [currentYear() - 1]: "Puzzles, The Chosen",
+    },
     ideas: [
-      { size: "small", title: "Winsor & Newton watercolor set", url: "https://www.dickblick.com", note: "She mentioned the travel one" },
+      {
+        size: "small",
+        title: "Winsor & Newton watercolor set",
+        url: "https://www.dickblick.com",
+        note: "She mentioned the travel one",
+      },
       { size: "big", title: "Garden kneeler + seat", url: null, note: "" },
-      { size: "small", title: "Salt & pepper shaker from Frankenmuth", url: null, note: "For her collection" },
+      {
+        size: "small",
+        title: "Salt & pepper shaker from Frankenmuth",
+        url: null,
+        note: "For her collection",
+      },
     ],
   },
   {
@@ -39,10 +52,18 @@ const FAMILY = [
       gift_cards: "Home Depot, Lowe's",
       hobbies: "Golf, smoking meat",
     },
-    interests: { [currentYear()]: "Trying to break 90", [currentYear() - 1]: "Disc golf" },
+    interests: {
+      [currentYear()]: "Trying to break 90",
+      [currentYear() - 1]: "Disc golf",
+    },
     ideas: [
       { size: "small", title: "Golf gloves, size L", url: null, note: "" },
-      { size: "big", title: "Meat grinder attachment", url: "https://www.kitchenaid.com", note: "" },
+      {
+        size: "big",
+        title: "Meat grinder attachment",
+        url: "https://www.kitchenaid.com",
+        note: "",
+      },
     ],
   },
   {
@@ -56,10 +77,23 @@ const FAMILY = [
       sizes: "Youth 10/12, shoes 4",
       collections: "Squishmallows (has: Wendy the frog)",
     },
-    interests: { [currentYear()]: "Art supplies, Bluey, making bracelets", [currentYear() - 1]: "Dinosaurs, magnatiles" },
+    interests: {
+      [currentYear()]: "Art supplies, Bluey, making bracelets",
+      [currentYear() - 1]: "Dinosaurs, magnatiles",
+    },
     ideas: [
-      { size: "small", title: "Perler beads mega set", url: "https://www.michaels.com", note: "" },
-      { size: "big", title: "Kinetic sand castle playset", url: null, note: "" },
+      {
+        size: "small",
+        title: "Perler beads mega set",
+        url: "https://www.michaels.com",
+        note: "",
+      },
+      {
+        size: "big",
+        title: "Kinetic sand castle playset",
+        url: null,
+        note: "",
+      },
     ],
   },
   {
@@ -72,8 +106,13 @@ const FAMILY = [
       snacks: "Slim Jims, apples",
       sizes: "Youth 14, shoes 6",
     },
-    interests: { [currentYear()]: "Fishing, Zelda", [currentYear() - 1]: "Pokemon cards" },
-    ideas: [{ size: "small", title: "Zelda TOTK guide book", url: null, note: "" }],
+    interests: {
+      [currentYear()]: "Fishing, Zelda",
+      [currentYear() - 1]: "Pokemon cards",
+    },
+    ideas: [
+      { size: "small", title: "Zelda TOTK guide book", url: null, note: "" },
+    ],
   },
   {
     name: "Jessica",
@@ -91,9 +130,17 @@ const FAMILY = [
       allergies: "No tree nuts",
       avoid: "No scented candles",
     },
-    interests: { [currentYear()]: "Cozy mysteries, half marathon training", [currentYear() - 1]: "Cricut projects" },
+    interests: {
+      [currentYear()]: "Cozy mysteries, half marathon training",
+      [currentYear() - 1]: "Cricut projects",
+    },
     ideas: [
-      { size: "small", title: "Kindle paperwhite", url: "https://www.amazon.com/kindle", note: "" },
+      {
+        size: "small",
+        title: "Kindle paperwhite",
+        url: "https://www.amazon.com/kindle",
+        note: "",
+      },
       { size: "small", title: "Goodr sunglasses", url: null, note: "" },
     ],
   },
@@ -150,7 +197,9 @@ const FAMILY = [
       gift_cards: "Xbox, GameStop",
     },
     interests: { [currentYear()]: "EA FC, lifting" },
-    ideas: [{ size: "small", title: "Xbox gift card $25", url: null, note: "" }],
+    ideas: [
+      { size: "small", title: "Xbox gift card $25", url: null, note: "" },
+    ],
   },
   {
     name: "Sophie",
@@ -185,14 +234,21 @@ for (const member of FAMILY) {
 
   if (!person) {
     console.log(`  skip ${member.name} (exists)`);
-    const [existing] = await db.select().from(people).where(eq(people.name, member.name)).limit(1);
+    const [existing] = await db
+      .select()
+      .from(people)
+      .where(eq(people.name, member.name))
+      .limit(1);
     creatorId = existing?.id ?? creatorId;
     continue;
   }
   creatorId ??= person.id;
 
   for (const [category, value] of Object.entries(member.favorites)) {
-    await db.insert(favorites).values({ personId: person.id, category, value }).onConflictDoNothing();
+    await db
+      .insert(favorites)
+      .values({ personId: person.id, category, value })
+      .onConflictDoNothing();
   }
   for (const [year, value] of Object.entries(member.interests)) {
     if (value) {

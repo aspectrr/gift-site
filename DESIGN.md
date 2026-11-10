@@ -1,4 +1,5 @@
 # Hatch — Style Reference
+
 > Hand-drawn zine meets pastel candy store. A cream-paper canvas splashed with mint highlights, confetti dots, and pill-shaped CTAs, where a chunky bold serif whispers fun and a blue mascot winks from the corner.
 
 **Theme:** light
@@ -9,24 +10,25 @@ Hatch operates as a playful creative-agency brand on a warm cream canvas: the pa
 
 ## Tokens — Colors
 
-| Name | Value | Token | Role |
-|------|-------|-------|------|
-| Cream Paper | `#f5f4f0` | `--color-cream-paper` | Page background, canvas — warm off-white that softens the overall feel and keeps the pastel accents from vibrating against pure white |
-| Pure White | `#ffffff` | `--color-pure-white` | Card and button surfaces — sits one elevation above the cream canvas |
-| Ink Black | `#000000` | `--color-ink-black` | Primary text, hairline borders, icon strokes, card outlines — the dominant structural color, 3625 occurrences make it the spine of every layout |
-| Charcoal | `#222222` | `--color-charcoal` | Body text and secondary headings when a slightly softer black is needed |
-| Slate | `#333333` | `--color-slate` | Nav text and subdued UI labels |
-| Fog | `#dddfe2` | `--color-fog` | Subtle link underlines and dividers in muted contexts |
-| Mint Splash | `#99ffcc` | `--color-mint-splash` | Primary action button fill, hand-drawn headline highlight swashes, active nav emphasis — the signature color that signals go |
-| Plum Ink | `#160042` | `--color-plum-ink` | Deep brand accent for dark surface text, illustration fills, and emphasis — provides a rich counterweight to the pastels |
-| Aubergine | `#26153f` | `--color-aubergine` | Outlined action border, dark button outline variant — borders and strokes when a deeper violet frame is needed without filling |
-| Sky Pop | `#7bbbff` | `--color-sky-pop` | Decorative illustration strokes, confetti dots, secondary accent chips, icon outlines — the cool member of the pastel set |
-| Bubblegum | `#ff99cc` | `--color-bubblegum` | Decorative confetti dots, highlight swashes, playful accent shapes — adds warmth and energy |
-| Peach Pop | `#ffcc99` | `--color-peach-pop` | Decorative dots, warm accent fills, illustration warm tones — the sunset note in the pastel quartet |
+| Name        | Value     | Token                 | Role                                                                                                                                            |
+| ----------- | --------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| Cream Paper | `#f5f4f0` | `--color-cream-paper` | Page background, canvas — warm off-white that softens the overall feel and keeps the pastel accents from vibrating against pure white           |
+| Pure White  | `#ffffff` | `--color-pure-white`  | Card and button surfaces — sits one elevation above the cream canvas                                                                            |
+| Ink Black   | `#000000` | `--color-ink-black`   | Primary text, hairline borders, icon strokes, card outlines — the dominant structural color, 3625 occurrences make it the spine of every layout |
+| Charcoal    | `#222222` | `--color-charcoal`    | Body text and secondary headings when a slightly softer black is needed                                                                         |
+| Slate       | `#333333` | `--color-slate`       | Nav text and subdued UI labels                                                                                                                  |
+| Fog         | `#dddfe2` | `--color-fog`         | Subtle link underlines and dividers in muted contexts                                                                                           |
+| Mint Splash | `#99ffcc` | `--color-mint-splash` | Primary action button fill, hand-drawn headline highlight swashes, active nav emphasis — the signature color that signals go                    |
+| Plum Ink    | `#160042` | `--color-plum-ink`    | Deep brand accent for dark surface text, illustration fills, and emphasis — provides a rich counterweight to the pastels                        |
+| Aubergine   | `#26153f` | `--color-aubergine`   | Outlined action border, dark button outline variant — borders and strokes when a deeper violet frame is needed without filling                  |
+| Sky Pop     | `#7bbbff` | `--color-sky-pop`     | Decorative illustration strokes, confetti dots, secondary accent chips, icon outlines — the cool member of the pastel set                       |
+| Bubblegum   | `#ff99cc` | `--color-bubblegum`   | Decorative confetti dots, highlight swashes, playful accent shapes — adds warmth and energy                                                     |
+| Peach Pop   | `#ffcc99` | `--color-peach-pop`   | Decorative dots, warm accent fills, illustration warm tones — the sunset note in the pastel quartet                                             |
 
 ## Tokens — Typography
 
 ### Recoleta — All headlines, hero display, nav wordmark. Used exclusively at weight 700; the high-contrast chunky serif gives the brand its editorial-creative voice. Scales from 32px subheadings up to 151px hero display. Tight negative tracking (approximately -0.028em) tightens the bold forms at large sizes so the headline reads as one confident block rather than airy display type. · `--font-recoleta`
+
 - **Substitute:** DM Serif Display
 - **Weights:** 700
 - **Sizes:** 18px, 24px, 32px, 48px, 64px, 72px, 84px, 151px
@@ -35,6 +37,7 @@ Hatch operates as a playful creative-agency brand on a warm cream canvas: the pa
 - **Role:** All headlines, hero display, nav wordmark. Used exclusively at weight 700; the high-contrast chunky serif gives the brand its editorial-creative voice. Scales from 32px subheadings up to 151px hero display. Tight negative tracking (approximately -0.028em) tightens the bold forms at large sizes so the headline reads as one confident block rather than airy display type.
 
 ### Lota Grotes Que Alt — Body copy, UI labels, button text, nav links, icon labels. The 400 weight carries paragraphs and helper text; 700 weight handles button labels and small emphatic UI strings. Acts as the quiet utilitarian counterpoint to Recoleta's personality — it should never compete for attention. · `--font-lota-grotes-que-alt`
+
 - **Substitute:** Inter
 - **Weights:** 400, 700
 - **Sizes:** 14px, 18px, 24px
@@ -43,16 +46,16 @@ Hatch operates as a playful creative-agency brand on a warm cream canvas: the pa
 
 ### Type Scale
 
-| Role | Family | Weight | Size | Line Height | Letter Spacing | Token |
-|------|--------|--------|------|-------------|----------------|-------|
-| caption | — | — | 14px | 1.5 | 0px | `--text-caption` |
-| body | — | — | 18px | 1.5 | 0px | `--text-body` |
-| subheading | — | — | 24px | 1.3 | 0px | `--text-subheading` |
-| heading-sm | — | — | 32px | 1.2 | -0.9px | `--text-heading-sm` |
-| heading | — | — | 48px | 1.1 | -1.34px | `--text-heading` |
-| heading-lg | — | — | 64px | 1.1 | -1.79px | `--text-heading-lg` |
-| display | — | — | 84px | 1.05 | -2.35px | `--text-display` |
-| hero | — | — | 151px | 1 | -4.23px | `--text-hero` |
+| Role       | Family | Weight | Size  | Line Height | Letter Spacing | Token               |
+| ---------- | ------ | ------ | ----- | ----------- | -------------- | ------------------- |
+| caption    | —      | —      | 14px  | 1.5         | 0px            | `--text-caption`    |
+| body       | —      | —      | 18px  | 1.5         | 0px            | `--text-body`       |
+| subheading | —      | —      | 24px  | 1.3         | 0px            | `--text-subheading` |
+| heading-sm | —      | —      | 32px  | 1.2         | -0.9px         | `--text-heading-sm` |
+| heading    | —      | —      | 48px  | 1.1         | -1.34px        | `--text-heading`    |
+| heading-lg | —      | —      | 64px  | 1.1         | -1.79px        | `--text-heading-lg` |
+| display    | —      | —      | 84px  | 1.05        | -2.35px        | `--text-display`    |
+| hero       | —      | —      | 151px | 1           | -4.23px        | `--text-hero`       |
 
 ## Tokens — Spacing & Shapes
 
@@ -62,35 +65,35 @@ Hatch operates as a playful creative-agency brand on a warm cream canvas: the pa
 
 ### Spacing Scale
 
-| Name | Value | Token |
-|------|-------|-------|
-| 4 | 4px | `--spacing-4` |
-| 8 | 8px | `--spacing-8` |
-| 12 | 12px | `--spacing-12` |
-| 16 | 16px | `--spacing-16` |
-| 20 | 20px | `--spacing-20` |
-| 24 | 24px | `--spacing-24` |
-| 28 | 28px | `--spacing-28` |
-| 32 | 32px | `--spacing-32` |
-| 40 | 40px | `--spacing-40` |
-| 48 | 48px | `--spacing-48` |
-| 52 | 52px | `--spacing-52` |
-| 64 | 64px | `--spacing-64` |
-| 80 | 80px | `--spacing-80` |
-| 100 | 100px | `--spacing-100` |
-| 120 | 120px | `--spacing-120` |
-| 172 | 172px | `--spacing-172` |
+| Name | Value | Token           |
+| ---- | ----- | --------------- |
+| 4    | 4px   | `--spacing-4`   |
+| 8    | 8px   | `--spacing-8`   |
+| 12   | 12px  | `--spacing-12`  |
+| 16   | 16px  | `--spacing-16`  |
+| 20   | 20px  | `--spacing-20`  |
+| 24   | 24px  | `--spacing-24`  |
+| 28   | 28px  | `--spacing-28`  |
+| 32   | 32px  | `--spacing-32`  |
+| 40   | 40px  | `--spacing-40`  |
+| 48   | 48px  | `--spacing-48`  |
+| 52   | 52px  | `--spacing-52`  |
+| 64   | 64px  | `--spacing-64`  |
+| 80   | 80px  | `--spacing-80`  |
+| 100  | 100px | `--spacing-100` |
+| 120  | 120px | `--spacing-120` |
+| 172  | 172px | `--spacing-172` |
 
 ### Border Radius
 
-| Element | Value |
-|---------|-------|
-| tags | 100px |
-| cards | 16px |
-| large | 40px |
-| pills | 9999px |
-| small | 4px |
-| buttons | 12px |
+| Element | Value  |
+| ------- | ------ |
+| tags    | 100px  |
+| cards   | 16px   |
+| large   | 40px   |
+| pills   | 9999px |
+| small   | 4px    |
+| buttons | 12px   |
 
 ### Layout
 
@@ -102,51 +105,61 @@ Hatch operates as a playful creative-agency brand on a warm cream canvas: the pa
 ## Components
 
 ### Mint CTA Button (Filled)
+
 **Role:** Primary call-to-action in hero and key sections
 
 Background #99ffcc, text #000000, 1px solid #000000 border, 12px radius, padding 10px 16px (or 8px horizontal on compact variants). Font: Lota Grotes Que Alt 700 at 18px. Sits confidently on the cream canvas — the mint fill is the single most attention-grabbing element on the page.
 
 ### Outline Button (Dark)
+
 **Role:** Secondary action paired with the mint CTA
 
 Transparent background, 1px solid #000000 border, 12px radius, padding 10px 16px. Text #000000 in Lota Grotes Que Alt 700. Always appears as the right-hand companion to the mint button in button groups.
 
 ### Pill Nav CTA
+
 **Role:** Book-a-call button in the top navigation
 
 Full 9999px (1440px) pill radius, background #99ffcc, 1px solid #000000 border, padding ~6px 16px. Text in Lota Grotes Que Alt 700. Distinguishes the persistent nav CTA from in-page CTAs by its full pill shape.
 
 ### Feature Card
+
 **Role:** Logo tile in the social proof grid
 
 Background #ffffff, 1px solid #000000 border, 16px radius, padding 24-32px. Contains a partner logo centered within. No shadow — the border alone defines the card edge on the cream canvas.
 
 ### Highlighted Headline Swash
+
 **Role:** Hand-drawn highlight behind keywords in hero and section headlines
 
 A mint green (#99ffcc) irregular oval brush stroke positioned behind selected words in Recoleta 700 headlines. Approximately 60-80% of the text height, offset to wrap the word's contour. This is a signature brand element — it should feel hand-drawn, not geometric.
 
 ### Confetti Decoration
+
 **Role:** Scattered playful dots around hero and section edges
 
 Small filled circles in #ff99cc, #7bbbff, #ffcc99, and #99ffcc, placed asymmetrically around headlines and illustrations. Sizes 6-12px, no border. They signal creative/playful energy without forming a pattern.
 
 ### Navigation Bar
+
 **Role:** Top-of-page nav with logo and links
 
 Transparent or cream (#f5f4f0) background, no border. Logo 'HATCH' in Recoleta 700 at left. Nav links in Lota Grotes Que Alt 400 at 14-18px in #000000, spaced with ~22px horizontal padding. Mint pill CTA anchored to the right.
 
 ### Circuit Illustration Panel
+
 **Role:** Hero feature graphic showing platform distribution network
 
 A rounded-rectangle container (~16px radius) with cream interior, containing radiating line-traces in peach, sky blue, and pink connecting social platform icons to a central mint play-button sphere. Functions as the primary explanatory visual below the hero.
 
 ### Mascot Character
+
 **Role:** Brand mascot — blue speech bubble with pink headphones
 
 Hand-drawn illustration: round blue (#7bbbff) speech bubble with a winking face, wearing pink (#ff99cc) headphones, with small sparkle marks. Used as a friendly anchor in the hero corner and section accents.
 
 ### Link Underline
+
 **Role:** Inline text links in body copy
 
 1px solid underline in #dddfe2 or #000000, no offset. Text remains in Lota Grotes Que Alt 400. Underline is the sole affordance — no color change on hover state to maintain editorial calm.
@@ -154,6 +167,7 @@ Hand-drawn illustration: round blue (#7bbbff) speech bubble with a winking face,
 ## Do's and Don'ts
 
 ### Do
+
 - Use Recoleta 700 exclusively for all headlines and display text — never substitute a different serif or drop to a lower weight
 - Apply the mint #99ffcc highlight swash behind one or two keywords per major headline to reinforce brand identity
 - Pair every mint filled CTA with a dark outline button as its right-hand companion in button groups
@@ -164,6 +178,7 @@ Hand-drawn illustration: round blue (#7bbbff) speech bubble with a winking face,
 - Place 4-8 confetti dots in mixed pastels around hero and section headlines, varying size 6-12px and color
 
 ### Don't
+
 - Do not use box-shadow or drop-shadow on any element — depth comes from the cream/white surface contrast and 1px borders alone
 - Do not use mint #99ffcc as a background fill for cards or large surfaces — reserve it for buttons and highlight swashes
 - Do not mix sky blue, peach, and pink as CTA fills — only mint is a button color; the other three are decorative
@@ -175,12 +190,12 @@ Hand-drawn illustration: round blue (#7bbbff) speech bubble with a winking face,
 
 ## Surfaces
 
-| Level | Name | Value | Purpose |
-|-------|------|-------|---------|
-| 0 | Canvas | `#f5f4f0` | Page background |
-| 1 | Card | `#ffffff` | Elevated content surfaces, logo tiles, feature cards |
-| 2 | Mint Action | `#99ffcc` | Primary CTA surface, highlight wash behind headlines |
-| 3 | Decorative Accent | `#ffcc99` | Warm accent fills on illustration and chips |
+| Level | Name              | Value     | Purpose                                              |
+| ----- | ----------------- | --------- | ---------------------------------------------------- |
+| 0     | Canvas            | `#f5f4f0` | Page background                                      |
+| 1     | Card              | `#ffffff` | Elevated content surfaces, logo tiles, feature cards |
+| 2     | Mint Action       | `#99ffcc` | Primary CTA surface, highlight wash behind headlines |
+| 3     | Decorative Accent | `#ffcc99` | Warm accent fills on illustration and chips          |
 
 ## Elevation
 
@@ -197,6 +212,7 @@ The page is centered, max-width 1200px contained, with generous vertical breathi
 ## Agent Prompt Guide
 
 **Quick Color Reference**
+
 - background: #f5f4f0
 - card surface: #ffffff
 - text: #000000
@@ -205,15 +221,16 @@ The page is centered, max-width 1200px contained, with generous vertical breathi
 - primary action: #99ffcc (filled action)
 
 **Example Component Prompts**
-1. *Hero headline section*: Cream (#f5f4f0) full-bleed background. Centered headline in Recoleta 700 at 84px, color #000000, letter-spacing -2.35px, line-height 1.05. Behind the phrase 'Video Agency of Record' place a hand-drawn mint (#99ffcc) oval highlight swash approximately 70% of the cap height. Subtext paragraph below in Lota Grotes Que Alt 400 at 18px, #000000, max-width 600px centered. Two buttons side by side, 12px gap: mint filled button (#99ffcc bg, #000000 text and 1px border, 12px radius, 10px 16px padding, Lota Grotes Que Alt 700 18px) and dark outline button (transparent bg, 1px #000000 border, 12px radius, same padding/text). Scattered 6-12px confetti dots in #ff99cc, #7bbbff, #ffcc99 around the headline.
 
-2. *Logo grid card*: White (#ffffff) background, 1px solid #000000 border, 16px border-radius, 32px padding all sides. Partner logo centered inside, no additional styling. No shadow.
+1. _Hero headline section_: Cream (#f5f4f0) full-bleed background. Centered headline in Recoleta 700 at 84px, color #000000, letter-spacing -2.35px, line-height 1.05. Behind the phrase 'Video Agency of Record' place a hand-drawn mint (#99ffcc) oval highlight swash approximately 70% of the cap height. Subtext paragraph below in Lota Grotes Que Alt 400 at 18px, #000000, max-width 600px centered. Two buttons side by side, 12px gap: mint filled button (#99ffcc bg, #000000 text and 1px border, 12px radius, 10px 16px padding, Lota Grotes Que Alt 700 18px) and dark outline button (transparent bg, 1px #000000 border, 12px radius, same padding/text). Scattered 6-12px confetti dots in #ff99cc, #7bbbff, #ffcc99 around the headline.
 
-3. *Top navigation*: Transparent background, HATCH wordmark in Recoleta 700 at 24px in #000000 at left. Center: four nav links in Lota Grotes Que Alt 400 at 14px in #000000 with 22px horizontal padding between them. Right: mint pill button (#99ffcc bg, #000000 text and border, 9999px radius, 6px 16px padding, Lota Grotes Que Alt 700). No drop shadow, no sticky border.
+2. _Logo grid card_: White (#ffffff) background, 1px solid #000000 border, 16px border-radius, 32px padding all sides. Partner logo centered inside, no additional styling. No shadow.
 
-4. *Illustration panel container*: Cream (#f5f4f0) background matching the page, 1px solid #000000 border, 16px radius, 40px padding. Inside: radiating thin line-traces (1.5px stroke) in #ffcc99, #7bbbff, #ff99cc connecting small platform-icon glyphs to a central mint (#99ffcc) sphere with a dark play triangle inside.
+3. _Top navigation_: Transparent background, HATCH wordmark in Recoleta 700 at 24px in #000000 at left. Center: four nav links in Lota Grotes Que Alt 400 at 14px in #000000 with 22px horizontal padding between them. Right: mint pill button (#99ffcc bg, #000000 text and border, 9999px radius, 6px 16px padding, Lota Grotes Que Alt 700). No drop shadow, no sticky border.
 
-5. *Highlight swash element*: An irregular oval path filled #99ffcc, no stroke, positioned absolutely behind a keyword in a Recoleta 700 headline. Width approximately matches the keyword width plus 8px, height approximately 60-80% of the cap height, offset downward so the top of the swash sits at the x-height. The shape should feel hand-drawn — slight irregularity in the path is intentional.
+4. _Illustration panel container_: Cream (#f5f4f0) background matching the page, 1px solid #000000 border, 16px radius, 40px padding. Inside: radiating thin line-traces (1.5px stroke) in #ffcc99, #7bbbff, #ff99cc connecting small platform-icon glyphs to a central mint (#99ffcc) sphere with a dark play triangle inside.
+
+5. _Highlight swash element_: An irregular oval path filled #99ffcc, no stroke, positioned absolutely behind a keyword in a Recoleta 700 headline. Width approximately matches the keyword width plus 8px, height approximately 60-80% of the cap height, offset downward so the top of the swash sits at the x-height. The shape should feel hand-drawn — slight irregularity in the path is intentional.
 
 ## Pastel Accent Rotation
 
@@ -250,8 +267,12 @@ The mint highlight behind keywords is a defining brand element and should be app
   --color-peach-pop: #ffcc99;
 
   /* Typography — Font Families */
-  --font-recoleta: 'Recoleta', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-lota-grotes-que-alt: 'Lota Grotes Que Alt', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-recoleta:
+    'Recoleta', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, sans-serif;
+  --font-lota-grotes-que-alt:
+    'Lota Grotes Que Alt', ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   /* Typography — Scale */
   --text-caption: 14px;
@@ -353,8 +374,12 @@ The mint highlight behind keywords is a defining brand element and should be app
   --color-peach-pop: #ffcc99;
 
   /* Typography */
-  --font-recoleta: 'Recoleta', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-lota-grotes-que-alt: 'Lota Grotes Que Alt', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-recoleta:
+    'Recoleta', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, sans-serif;
+  --font-lota-grotes-que-alt:
+    'Lota Grotes Que Alt', ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   /* Typography — Scale */
   --text-caption: 14px;

@@ -17,13 +17,17 @@ export default function Home() {
       <Title>Howards' Favorites</Title>
       <Show
         when={family()}
-        fallback={<p class="pt-16 text-center text-slate">Warming up the chart…</p>}
+        fallback={
+          <p class="pt-16 text-center text-slate">Warming up the chart…</p>
+        }
         keyed
       >
         {(data) => (
           <Show
             when={who() && (entered() ?? true)}
-            fallback={<Onboarding family={data} onDone={() => setEntered(true)} />}
+            fallback={
+              <Onboarding family={data} onDone={() => setEntered(true)} />
+            }
           >
             <PeopleDirectory family={data} />
           </Show>
