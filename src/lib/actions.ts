@@ -161,52 +161,56 @@ export const savePersonAction = action(
       return { error: "Birthday should look like 04-09 (month-day)." };
     }
 
-    await db
-      .update(people)
-      .set({
-        name,
-        // contact info is editable only by the person it belongs to
-        ...(who.id === id ? { email: emailRaw || null, phone } : {}),
-        birthday: birthdayRaw || null,
-        isKid: fd.get("isKid") === "on",
-      })
-      .where(eq(people.id, id));
+    // one unit: all writes land together or none do (concurrent
+    // autosave + beacon flush can interleave, this keeps rows consistent)
+    await db.transaction(async (tx) => {
+      await tx
+        .update(people)
+        .set({
+          name,
+          // contact info is editable only by the person it belongs to
+          ...(who.id === id ? { email: emailRaw || null, phone } : {}),
+          birthday: birthdayRaw || null,
+          isKid: fd.get("isKid") === "on",
+        })
+        .where(eq(people.id, id));
 
-    for (const cat of CATEGORIES) {
-      const value = String(fd.get(`cat_${cat.key}`) ?? "").trim();
-      if (!value) {
-        await db
-          .delete(favorites)
-          .where(
-            and(eq(favorites.personId, id), eq(favorites.category, cat.key)),
-          );
-      } else {
-        await db
-          .insert(favorites)
-          .values({ personId: id, category: cat.key, value })
-          .onConflictDoUpdate({
-            target: [favorites.personId, favorites.category],
-            set: { value },
-          });
+      for (const cat of CATEGORIES) {
+        const value = String(fd.get(`cat_${cat.key}`) ?? "").trim();
+        if (!value) {
+          await tx
+            .delete(favorites)
+            .where(
+              and(eq(favorites.personId, id), eq(favorites.category, cat.key)),
+            );
+        } else {
+          await tx
+            .insert(favorites)
+            .values({ personId: id, category: cat.key, value })
+            .onConflictDoUpdate({
+              target: [favorites.personId, favorites.category],
+              set: { value },
+            });
+        }
       }
-    }
 
-    const into = String(fd.get("into_now") ?? "").trim();
-    if (into) {
-      await db
-        .insert(interests)
-        .values({ personId: id, year: currentYear(), value: into })
-        .onConflictDoUpdate({
-          target: [interests.personId, interests.year],
-          set: { value: into },
-        });
-    } else {
-      await db
-        .delete(interests)
-        .where(
-          and(eq(interests.personId, id), eq(interests.year, currentYear())),
-        );
-    }
+      const into = String(fd.get("into_now") ?? "").trim();
+      if (into) {
+        await tx
+          .insert(interests)
+          .values({ personId: id, year: currentYear(), value: into })
+          .onConflictDoUpdate({
+            target: [interests.personId, interests.year],
+            set: { value: into },
+          });
+      } else {
+        await tx
+          .delete(interests)
+          .where(
+            and(eq(interests.personId, id), eq(interests.year, currentYear())),
+          );
+      }
+    });
 
     return { ok: true };
   },
