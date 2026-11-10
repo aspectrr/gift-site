@@ -13,7 +13,9 @@
     "migrate": "bun run src/db/migrate.ts",
     "seed": "bun run src/db/seed.ts",
     "reminders:run": "bun run src/server/run-reminders.ts",
-    "test": "bun test"
+    "test": "bun test",
+    "typecheck": "tsc --noEmit",
+    "prepare": "husky"
   },
   "dependencies": {
     "@solidjs/meta": "^0.29.7",
@@ -27,6 +29,7 @@
     "@tailwindcss/vite": "^4.1.8",
     "@types/bun": "^1.4.4",
     "drizzle-kit": "^0.31.1",
+    "husky": "^9.1.7",
     "tailwindcss": "^4.1.8",
     "typescript": "^5.8.3"
   },

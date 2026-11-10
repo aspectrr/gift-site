@@ -1,6 +1,12 @@
 import { eq } from "drizzle-orm";
 import { db } from "~/db";
-import { people, interests, giftIdeas, favorites, remindersSent } from "~/db/schema";
+import {
+  people,
+  interests,
+  giftIdeas,
+  favorites,
+  remindersSent,
+} from "~/db/schema";
 import { dueReminders, type ReminderPerson } from "~/lib/reminders";
 import { CATEGORIES } from "~/lib/categories";
 import { birthdayLabel } from "~/lib/occasions";
@@ -11,18 +17,26 @@ const TZ = Bun.env.APP_TZ ?? "America/New_York";
 export type ReminderJobResult = { sent: string[]; failures: string[] };
 
 /** Load data, compute due reminders, send, record. Safe to run repeatedly. */
-export async function runReminderJob(now = new Date()): Promise<ReminderJobResult> {
+export async function runReminderJob(
+  now = new Date(),
+): Promise<ReminderJobResult> {
   const year = now.getFullYear();
   const everyone = await db.select().from(people);
   const ids = everyone.map((p) => p.id);
 
   const [ints, ideas, sent] = await Promise.all([
-    ids.length ? db.select().from(interests).where(eq(interests.year, year)) : [],
-    ids.length ? db.select().from(giftIdeas).where(eq(giftIdeas.year, year)) : [],
+    ids.length
+      ? db.select().from(interests).where(eq(interests.year, year))
+      : [],
+    ids.length
+      ? db.select().from(giftIdeas).where(eq(giftIdeas.year, year))
+      : [],
     db.select().from(remindersSent),
   ]);
 
-  const hasInterests = new Set(ints.filter((i) => i.value.trim()).map((i) => i.personId));
+  const hasInterests = new Set(
+    ints.filter((i) => i.value.trim()).map((i) => i.personId),
+  );
   const hasIdeas = new Set(ideas.map((i) => i.personId));
   const sentKeys = new Set(sent.map((s) => s.key));
 
@@ -48,7 +62,10 @@ export async function runReminderJob(now = new Date()): Promise<ReminderJobResul
           await sendEmail(birthdayEmail(member.email, r.person, favLines));
         }
       }
-      await db.insert(remindersSent).values({ key: r.key }).onConflictDoNothing();
+      await db
+        .insert(remindersSent)
+        .values({ key: r.key })
+        .onConflictDoNothing();
       result.sent.push(r.key);
     } catch (err) {
       console.error(`reminder ${r.key} failed:`, err);
@@ -60,9 +77,14 @@ export async function runReminderJob(now = new Date()): Promise<ReminderJobResul
 }
 
 async function favoritesOf(personId: number): Promise<string[]> {
-  const rows = await db.select().from(favorites).where(eq(favorites.personId, personId));
+  const rows = await db
+    .select()
+    .from(favorites)
+    .where(eq(favorites.personId, personId));
   const byKey = new Map(rows.map((r) => [r.category, r.value]));
-  return CATEGORIES.filter((c) => byKey.has(c.key)).map((c) => `${c.label}: ${byKey.get(c.key)}`);
+  return CATEGORIES.filter((c) => byKey.has(c.key)).map(
+    (c) => `${c.label}: ${byKey.get(c.key)}`,
+  );
 }
 
 function filloutEmail(p: ReminderPerson, year: number, wave: 1 | 2) {
@@ -107,5 +129,11 @@ function wrap(inner: string) {
 }
 
 function escapeHtml(s: string) {
-  return s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
+  return s.replace(
+    /[&<>"']/g,
+    (c) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[
+        c
+      ]!,
+  );
 }

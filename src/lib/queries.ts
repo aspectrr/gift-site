@@ -1,15 +1,12 @@
 import { query } from "@solidjs/router";
 
-export const whoQuery = query(
-  async () => {
-    "use server";
-    const { getWho } = await import("~/lib/who");
-    const who = await getWho();
-    // trimmed on purpose: this row gets serialized into every page payload
-    return who ? { id: who.id, name: who.name, color: who.color } : null;
-  },
-  "who",
-);
+export const whoQuery = query(async () => {
+  "use server";
+  const { getWho } = await import("~/lib/who");
+  const who = await getWho();
+  // trimmed on purpose: this row gets serialized into every page payload
+  return who ? { id: who.id, name: who.name, color: who.color } : null;
+}, "who");
 
 export type MemberDTO = {
   id: number;
@@ -25,53 +22,72 @@ export type MemberDTO = {
 export type FamilyData = {
   year: number;
   members: MemberDTO[];
-  upcoming: Array<{ id: number; name: string; color: string; days: number; label: string }>;
+  upcoming: Array<{
+    id: number;
+    name: string;
+    color: string;
+    days: number;
+    label: string;
+  }>;
 };
 
-export const familyQuery = query(
-  async (): Promise<FamilyData> => {
-    "use server";
-    const { eq } = await import("drizzle-orm");
-    const { db } = await import("~/db");
-    const { people, favorites, interests, giftIdeas } = await import("~/db/schema");
-    const { nextBirthdays, birthdayLabel } = await import("~/lib/occasions");
-    const { currentYear } = await import("~/lib/categories");
+export const familyQuery = query(async (): Promise<FamilyData> => {
+  "use server";
+  const { eq } = await import("drizzle-orm");
+  const { db } = await import("~/db");
+  const { people, favorites, interests, giftIdeas } =
+    await import("~/db/schema");
+  const { nextBirthdays, birthdayLabel } = await import("~/lib/occasions");
+  const { currentYear } = await import("~/lib/categories");
 
-    const tz = Bun.env.APP_TZ ?? "America/New_York";
-    const year = currentYear();
-    const now = new Date();
+  const tz = Bun.env.APP_TZ ?? "America/New_York";
+  const year = currentYear();
+  const now = new Date();
 
-    const everyone = await db.select().from(people).orderBy(people.name);
-    const favRows = await db.select().from(favorites);
-    const intRows = await db.select().from(interests).where(eq(interests.year, year));
-    const ideaRows = await db
-      .select({ id: giftIdeas.id, personId: giftIdeas.personId, title: giftIdeas.title })
-      .from(giftIdeas)
-      .where(eq(giftIdeas.year, year));
+  const everyone = await db.select().from(people).orderBy(people.name);
+  const favRows = await db.select().from(favorites);
+  const intRows = await db
+    .select()
+    .from(interests)
+    .where(eq(interests.year, year));
+  const ideaRows = await db
+    .select({
+      id: giftIdeas.id,
+      personId: giftIdeas.personId,
+      title: giftIdeas.title,
+    })
+    .from(giftIdeas)
+    .where(eq(giftIdeas.year, year));
 
-    const members: MemberDTO[] = everyone.map((p) => ({
-      id: p.id,
-      name: p.name,
-      isKid: p.isKid,
-      color: p.color,
-      birthday: p.birthday,
-      interestsNow: intRows.find((i) => i.personId === p.id)?.value ?? "",
-      favorites: Object.fromEntries(favRows.filter((f) => f.personId === p.id).map((f) => [f.category, f.value])),
-      ideas: ideaRows.filter((i) => i.personId === p.id).map((i) => ({ id: i.id, title: i.title })),
-    }));
+  const members: MemberDTO[] = everyone.map((p) => ({
+    id: p.id,
+    name: p.name,
+    isKid: p.isKid,
+    color: p.color,
+    birthday: p.birthday,
+    interestsNow: intRows.find((i) => i.personId === p.id)?.value ?? "",
+    favorites: Object.fromEntries(
+      favRows
+        .filter((f) => f.personId === p.id)
+        .map((f) => [f.category, f.value]),
+    ),
+    ideas: ideaRows
+      .filter((i) => i.personId === p.id)
+      .map((i) => ({ id: i.id, title: i.title })),
+  }));
 
-    const upcoming = nextBirthdays(everyone, now, tz, 30).map(({ person, days }) => ({
+  const upcoming = nextBirthdays(everyone, now, tz, 30).map(
+    ({ person, days }) => ({
       id: person.id,
       name: person.name,
       color: person.color,
       days,
       label: person.birthday ? birthdayLabel(person.birthday, now, tz) : "",
-    }));
+    }),
+  );
 
-    return { year, members, upcoming };
-  },
-  "family",
-);
+  return { year, members, upcoming };
+}, "family");
 
 export type IdeaDTO = {
   id: number;
@@ -84,7 +100,15 @@ export type IdeaDTO = {
 };
 
 export type PersonData = {
-  person: { id: number; name: string; email: string | null; phone: string | null; birthday: string | null; isKid: boolean; color: string };
+  person: {
+    id: number;
+    name: string;
+    email: string | null;
+    phone: string | null;
+    birthday: string | null;
+    isKid: boolean;
+    color: string;
+  };
   isSelf: boolean;
   /** false for anonymous visitors — they get a read-only view */
   canEdit: boolean;
@@ -101,12 +125,17 @@ export const personQuery = query(
     "use server";
     const { eq, and, desc } = await import("drizzle-orm");
     const { db } = await import("~/db");
-    const { people, favorites, interests, giftIdeas } = await import("~/db/schema");
+    const { people, favorites, interests, giftIdeas } =
+      await import("~/db/schema");
     const { getWho } = await import("~/lib/who");
     const { currentYear } = await import("~/lib/categories");
     const { birthdayLabel } = await import("~/lib/occasions");
 
-    const [person] = await db.select().from(people).where(eq(people.id, id)).limit(1);
+    const [person] = await db
+      .select()
+      .from(people)
+      .where(eq(people.id, id))
+      .limit(1);
     if (!person) return null;
 
     const who = await getWho();
@@ -121,13 +150,22 @@ export const personQuery = query(
       .selectDistinct({ year: giftIdeas.year })
       .from(giftIdeas)
       .where(eq(giftIdeas.personId, id));
-    const years = [...new Set([thisYear, ...yearRows.map((r) => r.year), ...ideaYears.map((r) => r.year)])]
+    const years = [
+      ...new Set([
+        thisYear,
+        ...yearRows.map((r) => r.year),
+        ...ideaYears.map((r) => r.year),
+      ]),
+    ]
       .filter((y) => y <= thisYear)
       .sort((a, b) => b - a);
 
     const selectedYear = year && years.includes(year) ? year : thisYear;
 
-    const favRows = await db.select().from(favorites).where(eq(favorites.personId, id));
+    const favRows = await db
+      .select()
+      .from(favorites)
+      .where(eq(favorites.personId, id));
     const [interestRow] = await db
       .select()
       .from(interests)
@@ -139,7 +177,11 @@ export const personQuery = query(
       .where(and(eq(giftIdeas.personId, id), eq(giftIdeas.year, selectedYear)))
       .orderBy(desc(giftIdeas.createdAt));
 
-    const creators = new Map((await db.select({ id: people.id, name: people.name }).from(people)).map((p) => [p.id, p.name]));
+    const creators = new Map(
+      (await db.select({ id: people.id, name: people.name }).from(people)).map(
+        (p) => [p.id, p.name],
+      ),
+    );
     const isSelf = who?.id === person.id;
 
     return {
@@ -164,12 +206,15 @@ export const personQuery = query(
         title: i.title,
         url: i.url,
         note: i.note,
-        addedByName: (i.createdById && creators.get(i.createdById)) || "someone",
+        addedByName:
+          (i.createdById && creators.get(i.createdById)) || "someone",
         bought: isSelf ? false : Boolean(i.boughtAt),
       })),
       years,
       year: selectedYear,
-      birthdayLabel: person.birthday ? birthdayLabel(person.birthday, new Date(), tz) : "",
+      birthdayLabel: person.birthday
+        ? birthdayLabel(person.birthday, new Date(), tz)
+        : "",
     };
   },
   "person",

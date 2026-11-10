@@ -1,8 +1,13 @@
 /** Resend over plain fetch — no SDK needed for one endpoint. */
 
-export async function sendEmail(opts: { to: string; subject: string; html: string }): Promise<void> {
+export async function sendEmail(opts: {
+  to: string;
+  subject: string;
+  html: string;
+}): Promise<void> {
   const key = Bun.env.RESEND_API_KEY;
-  const from = Bun.env.RESEND_FROM ?? "Howards' Favorites <onboarding@resend.dev>";
+  const from =
+    Bun.env.RESEND_FROM ?? "Howards' Favorites <onboarding@resend.dev>";
 
   if (!key) {
     console.log(`[email:dry-run] to=${opts.to} subject="${opts.subject}"`);
@@ -11,8 +16,16 @@ export async function sendEmail(opts: { to: string; subject: string; html: strin
 
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
-    headers: { authorization: `Bearer ${key}`, "content-type": "application/json" },
-    body: JSON.stringify({ from, to: [opts.to], subject: opts.subject, html: opts.html }),
+    headers: {
+      authorization: `Bearer ${key}`,
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      from,
+      to: [opts.to],
+      subject: opts.subject,
+      html: opts.html,
+    }),
   });
   if (!res.ok) {
     throw new Error(`resend ${res.status}: ${await res.text()}`);

@@ -14,5 +14,8 @@ export function matches(haystack: string, query: string): boolean {
   const q = normalize(query);
   if (!q) return true;
   const h = normalize(haystack);
-  return q.split(" ").filter(Boolean).every((token) => h.includes(token));
+  return q
+    .split(" ")
+    .filter(Boolean)
+    .every((token) => h.includes(token));
 }

@@ -44,12 +44,15 @@ export function dueReminders(
     (today.m === FILLOUT_WINDOW_END.month && today.d < FILLOUT_WINDOW_END.day)
   ) {
     for (const w of FILLOUT_WAVES) {
-      const started = dayNumber(today.y, today.m, today.d) >= dayNumber(today.y, w.month, w.day);
+      const started =
+        dayNumber(today.y, today.m, today.d) >=
+        dayNumber(today.y, w.month, w.day);
       if (!started) continue;
       for (const p of people) {
         if (!p.email || !p.listIsEmpty) continue;
         const key = `fillout:${year}:${w.wave}:${p.id}`;
-        if (!sentKeys.has(key)) due.push({ kind: "fillout", key, person: p, wave: w.wave });
+        if (!sentKeys.has(key))
+          due.push({ kind: "fillout", key, person: p, wave: w.wave });
       }
     }
   }

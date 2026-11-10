@@ -15,7 +15,11 @@ const SIZES = {
   lg: "h-16 w-16 text-2xl",
 } as const;
 
-export function Avatar(props: { name: string; color: string; size?: keyof typeof SIZES }) {
+export function Avatar(props: {
+  name: string;
+  color: string;
+  size?: keyof typeof SIZES;
+}) {
   return (
     <span
       class={`flex shrink-0 items-center justify-center rounded-full border-[1.5px] border-ink font-display font-normal text-ink ${COLOR_CLASS[props.color] ?? COLOR_CLASS.mint} ${SIZES[props.size ?? "md"]}`}

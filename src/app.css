@@ -103,7 +103,9 @@ body::after {
     font-weight: 700;
     font-size: 0.9375rem;
     cursor: pointer;
-    transition: transform 0.15s ease, background 0.15s ease;
+    transition:
+      transform 0.15s ease,
+      background 0.15s ease;
     user-select: none;
   }
   .btn:active {

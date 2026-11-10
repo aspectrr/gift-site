@@ -10,11 +10,15 @@ const at9am = (utc: string) => new Date(utc);
 
 describe("occasions", () => {
   test("birthday today = 0 days", () => {
-    expect(daysUntilBirthday("11-21", at9am("2026-11-21T14:00:00Z"), TZ)?.days).toBe(0);
+    expect(
+      daysUntilBirthday("11-21", at9am("2026-11-21T14:00:00Z"), TZ)?.days,
+    ).toBe(0);
   });
 
   test("7 days ahead", () => {
-    expect(daysUntilBirthday("11-22", at9am("2026-11-15T14:00:00Z"), TZ)?.days).toBe(7);
+    expect(
+      daysUntilBirthday("11-22", at9am("2026-11-15T14:00:00Z"), TZ)?.days,
+    ).toBe(7);
   });
 
   test("wraps to next year (Jan birthday, Dec today)", () => {
@@ -24,8 +28,12 @@ describe("occasions", () => {
   });
 
   test("Feb 29 resolves to Feb 28 in non-leap years", () => {
-    expect(daysUntilBirthday("02-29", at9am("2027-02-27T14:00:00Z"), TZ)?.days).toBe(1); // Feb 28
-    expect(daysUntilBirthday("02-29", at9am("2028-02-27T14:00:00Z"), TZ)?.days).toBe(2); // real Feb 29, leap
+    expect(
+      daysUntilBirthday("02-29", at9am("2027-02-27T14:00:00Z"), TZ)?.days,
+    ).toBe(1); // Feb 28
+    expect(
+      daysUntilBirthday("02-29", at9am("2028-02-27T14:00:00Z"), TZ)?.days,
+    ).toBe(2); // real Feb 29, leap
     expect(resolveBirthday("02-30", 2026)).toBeNull();
     expect(resolveBirthday("13-01", 2026)).toBeNull();
   });
@@ -52,45 +60,106 @@ describe("reminder selection", () => {
   });
 
   test("fill-out wave 1 fires on/after Nov 15 for empty lists with email", () => {
-    const due = dueReminders([person({})], new Set(), at9am("2026-11-15T14:00:00Z"), TZ, 2026);
+    const due = dueReminders(
+      [person({})],
+      new Set(),
+      at9am("2026-11-15T14:00:00Z"),
+      TZ,
+      2026,
+    );
     expect(due).toHaveLength(1);
     expect(due[0].kind).toBe("fillout");
     expect(due[0].key).toBe("fillout:2026:1:1");
   });
 
   test("Nov 14 is too early", () => {
-    expect(dueReminders([person({})], new Set(), at9am("2026-11-14T14:00:00Z"), TZ, 2026)).toHaveLength(0);
+    expect(
+      dueReminders(
+        [person({})],
+        new Set(),
+        at9am("2026-11-14T14:00:00Z"),
+        TZ,
+        2026,
+      ),
+    ).toHaveLength(0);
   });
 
   test("Dec 5 fires both waves, dedupe drops wave 1 if sent", () => {
     const now = at9am("2026-12-05T14:00:00Z");
     const both = dueReminders([person({})], new Set(), now, TZ, 2026);
-    expect(both.map((d) => d.key).sort()).toEqual(["fillout:2026:1:1", "fillout:2026:2:1"]);
-    const afterWave1 = dueReminders([person({})], new Set(["fillout:2026:1:1"]), now, TZ, 2026);
+    expect(both.map((d) => d.key).sort()).toEqual([
+      "fillout:2026:1:1",
+      "fillout:2026:2:1",
+    ]);
+    const afterWave1 = dueReminders(
+      [person({})],
+      new Set(["fillout:2026:1:1"]),
+      now,
+      TZ,
+      2026,
+    );
     expect(afterWave1.map((d) => d.key)).toEqual(["fillout:2026:2:1"]);
   });
 
   test("window closes after Christmas", () => {
-    expect(dueReminders([person({})], new Set(), at9am("2026-12-26T14:00:00Z"), TZ, 2026)).toHaveLength(0);
+    expect(
+      dueReminders(
+        [person({})],
+        new Set(),
+        at9am("2026-12-26T14:00:00Z"),
+        TZ,
+        2026,
+      ),
+    ).toHaveLength(0);
   });
 
   test("full list, no email, or empty name get no fill-out", () => {
     const now = at9am("2026-11-16T14:00:00Z");
-    expect(dueReminders([person({ listIsEmpty: false })], new Set(), now, TZ, 2026)).toHaveLength(0);
-    expect(dueReminders([person({ email: null })], new Set(), now, TZ, 2026)).toHaveLength(0);
+    expect(
+      dueReminders([person({ listIsEmpty: false })], new Set(), now, TZ, 2026),
+    ).toHaveLength(0);
+    expect(
+      dueReminders([person({ email: null })], new Set(), now, TZ, 2026),
+    ).toHaveLength(0);
   });
 
   test("birthday heads-up within 7 days, keyed by occurrence year, deduped", () => {
-    const bday = person({ id: 7, birthday: "11-21", listIsEmpty: false, email: "x@example.com" });
-    const due = dueReminders([bday], new Set(), at9am("2026-11-15T14:00:00Z"), TZ, 2026);
+    const bday = person({
+      id: 7,
+      birthday: "11-21",
+      listIsEmpty: false,
+      email: "x@example.com",
+    });
+    const due = dueReminders(
+      [bday],
+      new Set(),
+      at9am("2026-11-15T14:00:00Z"),
+      TZ,
+      2026,
+    );
     expect(due).toHaveLength(1);
     expect(due[0].kind).toBe("birthday");
     expect(due[0].key).toBe("bday:7:2026");
 
-    expect(dueReminders([bday], new Set(["bday:7:2026"]), at9am("2026-11-18T14:00:00Z"), TZ, 2026)).toHaveLength(0);
+    expect(
+      dueReminders(
+        [bday],
+        new Set(["bday:7:2026"]),
+        at9am("2026-11-18T14:00:00Z"),
+        TZ,
+        2026,
+      ),
+    ).toHaveLength(0);
 
-    const far = person({ id: 8, birthday: "12-20", listIsEmpty: false, email: "x@example.com" });
-    expect(dueReminders([far], new Set(), at9am("2026-11-15T14:00:00Z"), TZ, 2026)).toHaveLength(0);
+    const far = person({
+      id: 8,
+      birthday: "12-20",
+      listIsEmpty: false,
+      email: "x@example.com",
+    });
+    expect(
+      dueReminders([far], new Set(), at9am("2026-11-15T14:00:00Z"), TZ, 2026),
+    ).toHaveLength(0);
   });
 });
 

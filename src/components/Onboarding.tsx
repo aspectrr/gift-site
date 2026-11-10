@@ -37,7 +37,9 @@ const StepDots = (props: { total: number; current: number }) => (
       {(i) => (
         <span
           class="h-2 w-2 rounded-full border border-ink"
-          style={{ background: i === props.current ? "#99ffcc" : "transparent" }}
+          style={{
+            background: i === props.current ? "#99ffcc" : "transparent",
+          }}
         />
       )}
     </For>
@@ -56,7 +58,8 @@ export function Onboarding(props: { family: FamilyData; onDone: () => void }) {
   const [phone, setPhone] = createSignal("");
 
   const joinResult = () => join.result as ActionResult | undefined;
-  const existsMatch = () => ("match" in (joinResult() ?? {}) ? joinResult()!.match : undefined);
+  const existsMatch = () =>
+    "match" in (joinResult() ?? {}) ? joinResult()!.match : undefined;
 
   // useSubmission gives reactive pending/result; useAction gives the callable submitter.
   // Calling the submission proxy directly throws "not a function" before the first submit.
@@ -89,11 +92,15 @@ export function Onboarding(props: { family: FamilyData; onDone: () => void }) {
         {/* Welcome: existing family */}
         <Match when={step() === "welcome"}>
           <div class="animate-rise text-center">
-            <div class="flex justify-center"><Mascot pose="wave" size={140} /></div>
+            <div class="flex justify-center">
+              <Mascot pose="wave" size={140} />
+            </div>
             <h1 class="mt-2 font-display text-4xl tracking-tight text-ink">
               Hi, I'm <span class="swash">Dot</span>!
             </h1>
-            <p class="mt-2 text-slate">Who's here today? Pick your name. This phone remembers you.</p>
+            <p class="mt-2 text-slate">
+              Who's here today? Pick your name. This phone remembers you.
+            </p>
           </div>
           <div class="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-3">
             <For each={props.family.members.slice(0, 21)}>
@@ -106,13 +113,19 @@ export function Onboarding(props: { family: FamilyData; onDone: () => void }) {
                     disabled={pick.pending}
                   >
                     <Avatar name={m.name} color={m.color} size="sm" />
-                    <span class="truncate text-sm font-bold text-ink">{m.name}</span>
+                    <span class="truncate text-sm font-bold text-ink">
+                      {m.name}
+                    </span>
                   </button>
                 </form>
               )}
             </For>
           </div>
-          <button type="button" class="btn btn-primary mt-5 w-full" onClick={() => setStep("name")}>
+          <button
+            type="button"
+            class="btn btn-primary mt-5 w-full"
+            onClick={() => setStep("name")}
+          >
             None of these. I'm new!
           </button>
         </Match>
@@ -120,12 +133,18 @@ export function Onboarding(props: { family: FamilyData; onDone: () => void }) {
         {/* Step: name */}
         <Match when={step() === "name"}>
           <div class="card animate-rise p-6 sm:p-8">
-            <div class="flex justify-center"><Mascot pose="wave" /></div>
+            <div class="flex justify-center">
+              <Mascot pose="wave" />
+            </div>
             <h1 class="mt-2 text-center font-display text-3xl text-ink">
               {firstRun() ? (
-                <>You're the <span class="swash">first one</span> here!</>
+                <>
+                  You're the <span class="swash">first one</span> here!
+                </>
               ) : (
-                <>What's your <span class="swash">name</span>?</>
+                <>
+                  What's your <span class="swash">name</span>?
+                </>
               )}
             </h1>
             <p class="mt-2 text-center text-slate">
@@ -147,26 +166,45 @@ export function Onboarding(props: { family: FamilyData; onDone: () => void }) {
                 maxlength="40"
                 autofocus
               />
-              <button type="submit" class="btn btn-primary px-5">Next</button>
+              <button type="submit" class="btn btn-primary px-5">
+                Next
+              </button>
             </form>
             <Show when={!name().trim()}>
-              <p class="mt-3 text-center text-xs text-slate">Tap Next once you've typed something.</p>
+              <p class="mt-3 text-center text-xs text-slate">
+                Tap Next once you've typed something.
+              </p>
             </Show>
 
             <Show when={existsMatch()}>
               {(match) => (
-                <div class="mt-4 flex items-center justify-between gap-3 rounded-2xl border border-ink bg-peach px-4 py-3" role="alert">
-                  <p class="text-sm font-bold text-ink">{match().name} is already on the chart. That you?</p>
+                <div
+                  class="mt-4 flex items-center justify-between gap-3 rounded-2xl border border-ink bg-peach px-4 py-3"
+                  role="alert"
+                >
+                  <p class="text-sm font-bold text-ink">
+                    {match().name} is already on the chart. That you?
+                  </p>
                   <form method="post" action={pickAction}>
                     <input type="hidden" name="id" value={match().id} />
-                    <button type="submit" class="btn btn-primary min-h-0 py-2" disabled={pick.pending}>Yes</button>
+                    <button
+                      type="submit"
+                      class="btn btn-primary min-h-0 py-2"
+                      disabled={pick.pending}
+                    >
+                      Yes
+                    </button>
                   </form>
                 </div>
               )}
             </Show>
 
             <Show when={!firstRun() && step() === "name" && !existsMatch()}>
-              <button type="button" class="mt-4 w-full text-center text-xs text-slate underline decoration-dotted" onClick={() => setStep("welcome")}>
+              <button
+                type="button"
+                class="mt-4 w-full text-center text-xs text-slate underline decoration-dotted"
+                onClick={() => setStep("welcome")}
+              >
                 ← back to the names
               </button>
             </Show>
@@ -176,12 +214,15 @@ export function Onboarding(props: { family: FamilyData; onDone: () => void }) {
         {/* Step: birthday */}
         <Match when={step() === "birthday"}>
           <div class="card animate-rise p-6 sm:p-8">
-            <div class="flex justify-center"><Mascot pose="think" /></div>
+            <div class="flex justify-center">
+              <Mascot pose="think" />
+            </div>
             <h1 class="mt-2 text-center font-display text-3xl text-ink">
               When's your <span class="swash">birthday</span>?
             </h1>
             <p class="mt-2 text-center text-slate">
-              Month and day is plenty. I'll remind everyone a week before. No year, we promise.
+              Month and day is plenty. I'll remind everyone a week before. No
+              year, we promise.
             </p>
             <form
               class="mt-5 flex flex-wrap gap-2"
@@ -196,17 +237,34 @@ export function Onboarding(props: { family: FamilyData; onDone: () => void }) {
                 inputmode="numeric"
                 pattern="\d{2}-\d{2}"
                 value={birthday()}
-                onInput={(e) => setBirthday(formatBirthday(e.currentTarget.value))}
+                onInput={(e) =>
+                  setBirthday(formatBirthday(e.currentTarget.value))
+                }
               />
-              <button type="submit" class="btn btn-primary px-5">Next</button>
-              <button type="button" class="btn btn-ghost" onClick={() => setStep("phone")}>Skip</button>
+              <button type="submit" class="btn btn-primary px-5">
+                Next
+              </button>
+              <button
+                type="button"
+                class="btn btn-ghost"
+                onClick={() => setStep("phone")}
+              >
+                Skip
+              </button>
             </form>
             <Show when={joinResult()?.error === "birthday"}>
-              <p class="mt-3 text-center text-sm font-bold text-ink" role="alert">
+              <p
+                class="mt-3 text-center text-sm font-bold text-ink"
+                role="alert"
+              >
                 Hmm, that doesn't look like a date. Try 04-09 style.
               </p>
             </Show>
-            <button type="button" class="mt-4 w-full text-center text-xs text-slate underline decoration-dotted" onClick={() => setStep("name")}>
+            <button
+              type="button"
+              class="mt-4 w-full text-center text-xs text-slate underline decoration-dotted"
+              onClick={() => setStep("name")}
+            >
               ← back
             </button>
           </div>
@@ -215,12 +273,15 @@ export function Onboarding(props: { family: FamilyData; onDone: () => void }) {
         {/* Step: phone */}
         <Match when={step() === "phone"}>
           <div class="card animate-rise p-6 sm:p-8">
-            <div class="flex justify-center"><Mascot pose="wink" /></div>
+            <div class="flex justify-center">
+              <Mascot pose="wink" />
+            </div>
             <h1 class="mt-2 text-center font-display text-3xl text-ink">
               Got a <span class="swash">phone</span>?
             </h1>
             <p class="mt-2 text-center text-slate">
-              For birthday pings 📱 Texts aren't switched on yet, but your number will be ready and waiting.
+              For birthday pings 📱 Texts aren't switched on yet, but your
+              number will be ready and waiting.
             </p>
             <form
               class="mt-5 flex flex-wrap gap-2"
@@ -237,14 +298,27 @@ export function Onboarding(props: { family: FamilyData; onDone: () => void }) {
                 value={phone()}
                 onInput={(e) => setPhone(formatPhone(e.currentTarget.value))}
               />
-              <button type="submit" class="btn btn-primary px-5" disabled={join.pending}>
+              <button
+                type="submit"
+                class="btn btn-primary px-5"
+                disabled={join.pending}
+              >
                 {join.pending ? "One sec…" : "Let's go"}
               </button>
-              <button type="button" class="btn btn-ghost" onClick={() => submitJoin()} disabled={join.pending}>
+              <button
+                type="button"
+                class="btn btn-ghost"
+                onClick={() => submitJoin()}
+                disabled={join.pending}
+              >
                 Skip
               </button>
             </form>
-            <button type="button" class="mt-4 w-full text-center text-xs text-slate underline decoration-dotted" onClick={() => setStep("birthday")}>
+            <button
+              type="button"
+              class="mt-4 w-full text-center text-xs text-slate underline decoration-dotted"
+              onClick={() => setStep("birthday")}
+            >
               ← back
             </button>
           </div>
@@ -257,7 +331,9 @@ export function Onboarding(props: { family: FamilyData; onDone: () => void }) {
             <div class="flex justify-center">
               <Mascot pose={TOUR[tourIdx()].pose} size={130} />
             </div>
-            <h2 class="mt-2 font-display text-3xl text-ink">{TOUR[tourIdx()].title}</h2>
+            <h2 class="mt-2 font-display text-3xl text-ink">
+              {TOUR[tourIdx()].title}
+            </h2>
             <p class="mx-auto mt-3 max-w-sm text-left text-[15px] leading-relaxed text-slate">
               {TOUR[tourIdx()].body}
             </p>
@@ -265,17 +341,32 @@ export function Onboarding(props: { family: FamilyData; onDone: () => void }) {
               <StepDots total={TOUR.length} current={tourIdx()} />
             </div>
             <div class="mt-4 flex justify-center gap-2">
-              <Show when={tourIdx() < TOUR.length - 1} fallback={
-                <button type="button" class="btn btn-primary px-8" onClick={() => props.onDone()}>
-                  Let's go in! 🎉
-                </button>
-              }>
-                <button type="button" class="btn btn-primary px-8" onClick={() => setTourIdx(tourIdx() + 1)}>
+              <Show
+                when={tourIdx() < TOUR.length - 1}
+                fallback={
+                  <button
+                    type="button"
+                    class="btn btn-primary px-8"
+                    onClick={() => props.onDone()}
+                  >
+                    Let's go in! 🎉
+                  </button>
+                }
+              >
+                <button
+                  type="button"
+                  class="btn btn-primary px-8"
+                  onClick={() => setTourIdx(tourIdx() + 1)}
+                >
                   Next
                 </button>
               </Show>
               <Show when={tourIdx() < TOUR.length - 1}>
-                <button type="button" class="btn btn-ghost" onClick={() => props.onDone()}>
+                <button
+                  type="button"
+                  class="btn btn-ghost"
+                  onClick={() => props.onDone()}
+                >
                   Skip tour
                 </button>
               </Show>

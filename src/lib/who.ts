@@ -19,7 +19,8 @@ function valid(raw: string | undefined): number | null {
   // ponytail: manual constant-time compare instead of node timingSafeEqual; sig is always 43-char base64url
   if (sig.length !== expected.length) return null;
   let diff = 0;
-  for (let i = 0; i < expected.length; i++) diff |= sig.charCodeAt(i) ^ expected.charCodeAt(i);
+  for (let i = 0; i < expected.length; i++)
+    diff |= sig.charCodeAt(i) ^ expected.charCodeAt(i);
   if (diff !== 0) return null;
   const n = Number(id);
   return Number.isInteger(n) && n > 0 ? n : null;
