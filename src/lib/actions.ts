@@ -176,7 +176,9 @@ export const savePersonAction = action(
         .where(eq(people.id, id));
 
       for (const cat of CATEGORIES) {
-        const value = String(fd.get(`cat_${cat.key}`) ?? "").trim();
+        const raw = String(fd.get(`cat_${cat.key}`) ?? "").trim();
+        // picker categories only ever store known options — never trust the client
+        const value = "options" in cat && !cat.options.includes(raw) ? "" : raw;
         if (!value) {
           await tx
             .delete(favorites)

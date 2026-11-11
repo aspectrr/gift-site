@@ -190,6 +190,15 @@ body::after {
     white-space: nowrap;
   }
 
+  /* selectable chips (favorite color): selected state lives on the radio itself */
+  .chip-pick {
+    cursor: pointer;
+  }
+  .chip-pick:has(input:checked) {
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+
   /* hand-drawn mint swash behind a keyword */
   .swash {
     position: relative;

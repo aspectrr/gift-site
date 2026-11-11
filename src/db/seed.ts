@@ -12,6 +12,7 @@ const FAMILY = [
     birthday: "03-22",
     isKid: false,
     favorites: {
+      favorite_color: "purple",
       snacks: "Dark chocolate almonds, David's jumbo sunflower seeds",
       drinks: "Sweet tea, half-and-half",
       coffee_order: "Dunkin medium iced, cream only",
@@ -47,6 +48,7 @@ const FAMILY = [
     birthday: "09-07",
     isKid: false,
     favorites: {
+      favorite_color: "green",
       coffee_order: "Black, always",
       restaurants: "Five Guys, Gus's Good Times Deli",
       gift_cards: "Home Depot, Lowe's",

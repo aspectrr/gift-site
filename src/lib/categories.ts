@@ -1,5 +1,33 @@
 /** The chart's fixed categories — the rows of the sheet. Adding one is a code change, not a migration. */
+/** Categories with `options` render as a picker instead of a free-text field. */
+export const FAVORITE_COLORS = [
+  { name: "red", hex: "#e2504c" },
+  { name: "orange", hex: "#f28c38" },
+  { name: "yellow", hex: "#f2c94c" },
+  { name: "green", hex: "#4caf6e" },
+  { name: "blue", hex: "#4a90d9" },
+  { name: "purple", hex: "#8e6fc0" },
+  { name: "pink", hex: "#ef8fb5" },
+  { name: "black", hex: "#2b2b2b" },
+  { name: "white", hex: "#ffffff" },
+] as const;
+
+export const FAVORITE_COLOR_HEX: Record<string, string> = Object.fromEntries(
+  FAVORITE_COLORS.map((c) => [c.name, c.hex]),
+);
+
+/** Widened so `.includes()` and friends take plain strings, not literal unions. */
+const FAVORITE_COLOR_NAMES: readonly string[] = FAVORITE_COLORS.map(
+  (c) => c.name,
+);
+
 export const CATEGORIES = [
+  {
+    key: "favorite_color",
+    label: "Favorite color",
+    placeholder: "",
+    options: FAVORITE_COLOR_NAMES,
+  },
   {
     key: "snacks",
     label: "Favorite snacks",

@@ -5,7 +5,7 @@ import {
   savePersonAction,
   type ActionResult,
 } from "~/lib/actions";
-import { CATEGORIES } from "~/lib/categories";
+import { CATEGORIES, FAVORITE_COLOR_HEX } from "~/lib/categories";
 import type { PersonData } from "~/lib/queries";
 import { formatBirthday, formatPhone } from "~/lib/format";
 
@@ -238,27 +238,72 @@ export function PersonForm(props: { data: PersonData; doneHref: string }) {
             Leave anything blank you'd rather skip.
           </p>
           <For each={CATEGORIES}>
-            {(cat) => (
-              <div>
-                <label class="label" for={`cat_${cat.key}`}>
-                  {cat.label}
-                </label>
-                <textarea
-                  class="input"
-                  id={`cat_${cat.key}`}
-                  name={`cat_${cat.key}`}
-                  placeholder={cat.placeholder}
-                  maxlength="300"
-                >
-                  {props.data.favorites[cat.key] ?? ""}
-                </textarea>
-                <FieldSaveHint
-                  field={`cat_${cat.key}`}
-                  active={activeField}
-                  status={status}
-                />
-              </div>
-            )}
+            {(cat) => {
+              const opts = "options" in cat ? cat.options : undefined;
+              const current = props.data.favorites[cat.key] ?? "";
+              const known = opts?.includes(current) ?? false;
+              return (
+                <div>
+                  {opts ? (
+                    <fieldset
+                      class="flex flex-wrap gap-2"
+                      aria-label={cat.label}
+                    >
+                      <span class="label w-full">{cat.label}</span>
+                      <For each={opts}>
+                        {(opt) => (
+                          <label class="chip chip-pick">
+                            <input
+                              type="radio"
+                              class="sr-only"
+                              name={`cat_${cat.key}`}
+                              value={opt}
+                              checked={current === opt}
+                            />
+                            <span
+                              class="size-3.5 rounded-full border border-ink/25"
+                              style={{ background: FAVORITE_COLOR_HEX[opt] }}
+                            />
+                            {opt}
+                          </label>
+                        )}
+                      </For>
+                      <label class="chip chip-pick">
+                        {/* radios can't be unchecked; this is the clearing path */}
+                        <input
+                          type="radio"
+                          class="sr-only"
+                          name={`cat_${cat.key}`}
+                          value=""
+                          checked={!known}
+                        />
+                        skip
+                      </label>
+                    </fieldset>
+                  ) : (
+                    <>
+                      <label class="label" for={`cat_${cat.key}`}>
+                        {cat.label}
+                      </label>
+                      <textarea
+                        class="input"
+                        id={`cat_${cat.key}`}
+                        name={`cat_${cat.key}`}
+                        placeholder={cat.placeholder}
+                        maxlength="300"
+                      >
+                        {current}
+                      </textarea>
+                    </>
+                  )}
+                  <FieldSaveHint
+                    field={`cat_${cat.key}`}
+                    active={activeField}
+                    status={status}
+                  />
+                </div>
+              );
+            }}
           </For>
         </fieldset>
 
