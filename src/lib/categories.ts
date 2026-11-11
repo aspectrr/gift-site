@@ -29,6 +29,11 @@ export const CATEGORIES = [
     options: FAVORITE_COLOR_NAMES,
   },
   {
+    key: "flowers",
+    label: "Favorite flowers",
+    placeholder: "Peonies, tulips, sunflowers…",
+  },
+  {
     key: "snacks",
     label: "Favorite snacks",
     placeholder: "Sour Patch Kids, sharp cheddar, kettle corn…",
