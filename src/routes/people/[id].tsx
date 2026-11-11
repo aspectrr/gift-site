@@ -5,7 +5,7 @@ import { personQuery } from "~/lib/queries";
 import { Avatar } from "~/components/Avatar";
 import { IdeaForm, IdeaRow } from "~/components/Idea";
 import { PersonForm } from "~/components/PersonForm";
-import { CATEGORIES } from "~/lib/categories";
+import { CATEGORIES, FAVORITE_COLOR_HEX } from "~/lib/categories";
 
 export default function PersonPage() {
   const params = useParams();
@@ -162,33 +162,45 @@ export default function PersonPage() {
                   >
                     <dl class="card divide-y divide-fog px-5">
                       <For each={CATEGORIES}>
-                        {(cat) => (
-                          <div class="grid gap-1 py-3.5 sm:grid-cols-[200px_1fr] sm:gap-4">
-                            <dt class="text-xs font-extrabold uppercase tracking-wide text-slate">
-                              {cat.label}
-                            </dt>
-                            <dd
-                              classList={{
-                                "text-[15px] leading-relaxed text-charcoal":
-                                  Boolean(d().favorites[cat.key]),
-                                "text-[15px] italic text-slate/50":
-                                  !d().favorites[cat.key],
-                              }}
-                            >
-                              {d().favorites[cat.key] ||
-                                (d().canEdit ? (
-                                  <A
-                                    href={editHref(true)}
-                                    class="text-plum underline decoration-dotted underline-offset-2"
-                                  >
-                                    add {cat.label.toLowerCase()}
-                                  </A>
-                                ) : (
-                                  "not on the chart yet"
-                                ))}
-                            </dd>
-                          </div>
-                        )}
+                        {(cat) => {
+                          const swatch =
+                            cat.key === "favorite_color"
+                              ? FAVORITE_COLOR_HEX[d().favorites[cat.key] ?? ""]
+                              : undefined;
+                          return (
+                            <div class="grid gap-1 py-3.5 sm:grid-cols-[200px_1fr] sm:gap-4">
+                              <dt class="text-xs font-extrabold uppercase tracking-wide text-slate">
+                                {cat.label}
+                              </dt>
+                              <dd
+                                classList={{
+                                  "text-[15px] leading-relaxed text-charcoal":
+                                    Boolean(d().favorites[cat.key]),
+                                  "text-[15px] italic text-slate/50":
+                                    !d().favorites[cat.key],
+                                }}
+                              >
+                                {swatch && (
+                                  <span
+                                    class="mr-1.5 inline-block size-3.5 rounded-full border border-ink/25 align-middle"
+                                    style={{ background: swatch }}
+                                  />
+                                )}
+                                {d().favorites[cat.key] ||
+                                  (d().canEdit ? (
+                                    <A
+                                      href={editHref(true)}
+                                      class="text-plum underline decoration-dotted underline-offset-2"
+                                    >
+                                      add {cat.label.toLowerCase()}
+                                    </A>
+                                  ) : (
+                                    "not on the chart yet"
+                                  ))}
+                              </dd>
+                            </div>
+                          );
+                        }}
                       </For>
                     </dl>
                   </Show>
